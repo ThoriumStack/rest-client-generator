@@ -22,7 +22,6 @@
             </e>
           </e>
         </e>
-        <e p="output" t="Include" />
         <e p="Program.cs" t="Include" />
         <e p="rest-proxy.csproj" t="IncludeRecursive" />
         <e p="Templates" t="Include">

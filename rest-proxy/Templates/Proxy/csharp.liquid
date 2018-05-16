@@ -56,7 +56,7 @@ namespace {{ NamespaceName }}
                    .ReceiveJson<{{ restCall.return_type }}>();
                {% endif %} 
                {% if restCall.Verb == "Get" %}
-                   .{{ restCall.verb }}JsonAsync();
+                   .{{ restCall.verb }}JsonAsync<{{ restCall.return_type }}>();
                {% endif %}  
                return result;
           }

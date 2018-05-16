@@ -142,7 +142,7 @@ namespace rest_proxy
                         classData.Calls.Add(restCall);
                     }
                 }
-
+                
 
                 File.WriteAllText($"output\\{controller.Name.Replace("Controller", "Client")}.cs",
                     Parse(classData, File.ReadAllText("Templates\\proxy\\csharp.liquid")));
