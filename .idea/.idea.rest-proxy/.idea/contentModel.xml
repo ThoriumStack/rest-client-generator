@@ -17,9 +17,17 @@
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="rest-proxy.AssemblyInfo.cs" t="Include" />
             </e>
+          </e>
+        </e>
+        <e p="output" t="Include">
+          <e p="v1_0" t="Include">
+            <e p="ClaimClient_v1_0.cs" t="Include" />
+            <e p="ClaimDocumentClient_v1_0.cs" t="Include" />
+            <e p="ClaimLookupClient_v1_0.cs" t="Include" />
+            <e p="FuneralClaimClient_v1_0.cs" t="Include" />
           </e>
         </e>
         <e p="Program.cs" t="Include" />

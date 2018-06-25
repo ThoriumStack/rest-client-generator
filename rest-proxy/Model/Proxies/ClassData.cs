@@ -10,5 +10,6 @@ namespace rest_proxy.Model.Proxies
         public List<RestCall> Calls { get; set; } = new List<RestCall>();
         public string ControllerRoute { get; set; }
         public string NamespaceName { get; set; }
+        public string ApiVersion { get; set; }
     }
 }

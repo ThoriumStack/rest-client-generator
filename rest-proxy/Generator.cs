@@ -9,6 +9,7 @@ using DotLiquid;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.FileSystemGlobbing;
+using MyBucks.Mvc.Tools;
 using rest_proxy.DotLiquid.ViewModel;
 using rest_proxy.Model.Proxies;
 
@@ -28,10 +29,10 @@ namespace rest_proxy
         public void Generate()
         {
             var asmPath =
-                @"C:\projects\mybucks\getsure-api-product\GetSure.ProductServer\bin\Debug\netcoreapp2.0\GetSure.ProductServer.dll";
+                @"C:\projects\mybucks\getsure-api-claims\GetSure.ClaimsServer\bin\Debug\netcoreapp2.1\GetSure.ClaimsServer.dll";
 
             var asm = Assembly.LoadFrom(asmPath);
-            var controllers = asm.GetTypes().Where(c => c.BaseType == typeof(ControllerBase)).ToList();
+            var controllers = asm.GetTypes().Where(c => c.BaseType == typeof(ApiController)).ToList();
 
             //  var controllers = GetMatchingTypesInAssembly(asm, c =>  c.IsAssignableFrom(typeof(ControllerBase)));
 
@@ -48,8 +49,16 @@ namespace rest_proxy
                 classData.ControllerRoute = controller.GetCustomAttribute<RouteAttribute>()?.Template;
                 var controllerType = controller;
                 var methods = controller.GetMethods().Where(c => c.DeclaringType == controllerType).ToList();
+                classData.ControllerRoute = controller.GetCustomAttribute<RouteAttribute>()?.Template;
+                var apiVersionAttrib = controller.GetCustomAttribute<ApiVersionAttribute>();
 
-
+                if (apiVersionAttrib != null)
+                {
+                    classData.ApiVersion = apiVersionAttrib.Versions.First().ToString();
+                    classData.ControllerRoute = classData.ControllerRoute.Replace("{version:apiVersion}", classData.ApiVersion);
+                    classData.ApiVersion = classData.ApiVersion.Replace(".", "_");
+                }
+                
                 classData.ClassName = controller.Name.Replace("Controller", "Client");
 
 
@@ -138,13 +147,21 @@ namespace rest_proxy
                             });
                         }
 
+                        restCall.Parameters.Reverse(); // reverse because body parms should show up last
                         restCall.FunctionParameters.AddRange(restCall.Parameters.Where(c=>!c.Fixed).ToList());
                         classData.Calls.Add(restCall);
                     }
                 }
-                
 
-                File.WriteAllText($"output\\{controller.Name.Replace("Controller", "Client")}.cs",
+                var apiVersionDir = "output\\";
+                
+                if (!string.IsNullOrWhiteSpace(classData.ApiVersion))
+                {
+                    apiVersionDir = $"output\\v{classData.ApiVersion}\\";
+                    Directory.CreateDirectory(apiVersionDir);
+                }
+
+                File.WriteAllText($"{apiVersionDir}{controller.Name.Replace("Controller", "Client")}_v{classData.ApiVersion}.cs",
                     Parse(classData, File.ReadAllText("Templates\\proxy\\csharp.liquid")));
             }
 

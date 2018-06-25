@@ -11,16 +11,15 @@ using MyBucks.Core.Model;
    using {{ include }};
  {% endfor %}
 
-namespace {{ NamespaceName }}
+namespace {{ NamespaceName }}.V{{ ApiVersion }}
 {
-    public class {{ ClassName }} : MyBucksApiClient
+    public class {{ ClassName }}
     {
-        private string _baseUrl;
+        private MyBucksApiClient _client;
 
-        public {{ ClassName }}(string baseUrl, TokenAuthenticationCredentials tokenAuthenticationCredentials,
-            string context) : base(baseUrl, tokenAuthenticationCredentials, context) 
+        public {{ ClassName }}(MyBucksApiClient client) 
         {
-            _baseUrl = baseUrl;
+            _client = client;
         }
         
         {% for restCall in Calls %}
@@ -30,16 +29,18 @@ namespace {{ NamespaceName }}
               {% if forloop.last == false %}, {% endif %}
             {%- endfor -%}) 
             {
-               var result = await GetRequest().AppendPathSegment("/{{ ControllerRoute }}")
+               var result = await _client.GetRequest().AppendPathSegment("/{{ ControllerRoute }}")
                {%- if restCall.controller_route != "" -%}
                   .AppendPathSegment("/{{ restCall.controller_route }}")
                {%- endif -%}
                {%- for parm in restCall.Parameters -%}
-                 {% if (restCall.Verb == "Post" or restCall.Verb == "Patch") && parm.HttpParameterType == "body"  %}
-                   .{{ restCall.verb}}JsonAsync({{ parm.parameter_name }})
-                   .ReceiveJson<{{ restCall.return_type }}>();
-                 {% endif %}
-                  {% if parm.http_parameter_type == "query" %}
+                 {%- if parm.http_parameter_type == "body" -%}
+                     {% if (restCall.Verb == "Post" or restCall.Verb == "Patch" or restCall.Verb == "Put")   %}
+                       .{{ restCall.verb}}JsonAsync({{ parm.parameter_name }})
+                       .ReceiveJson<{{ restCall.return_type }}>();
+                     {% endif %}
+                 {%- endif -%}
+                 {% if parm.http_parameter_type == "query" %}
                    .SetQueryParam("{{ parm.parameter_name }}", {{ parm.parameter_name }})
                  {% endif %}
                  {% if parm.http_parameter_type == "uri" %}
@@ -47,8 +48,7 @@ namespace {{ NamespaceName }}
                      .AppendPathSegment("{{ parm.parameter_name }}")
                    {% else %}
                      .AppendPathSegment({{ parm.parameter_name }})
-                   {% endif %}
-                   
+                   {% endif %} 
                  {% endif %}
                {%- endfor -%}
                {% if restCall.Verb == "Delete" %}

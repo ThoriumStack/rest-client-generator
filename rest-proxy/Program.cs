@@ -15,7 +15,21 @@ namespace rest_proxy
         static void Main(string[] args)
         {
            var generator = new Generator("csharp", "MyBucks.Core.ApiGateway.Product");
-            generator.Generate();
+            try
+            {
+                generator.Generate();
+            }
+            catch (ReflectionTypeLoadException e)
+            {
+                Console.WriteLine($"Loader exceptions: {e.LoaderExceptions.Length}");
+                
+                foreach (var eLoaderException in e.LoaderExceptions)
+                {
+                    Console.WriteLine($"Missing library: {eLoaderException.Message}");
+                }
+                //Console.WriteLine(e);
+                throw;
+            }
 
             Console.WriteLine("Done!");
         }
