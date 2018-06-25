@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using DotLiquid;
 using Microsoft.AspNetCore.Mvc;
@@ -161,12 +162,32 @@ namespace rest_proxy
                     Directory.CreateDirectory(apiVersionDir);
                 }
 
-                File.WriteAllText($"{apiVersionDir}{controller.Name.Replace("Controller", "Client")}_v{classData.ApiVersion}.cs",
-                    Parse(classData, File.ReadAllText("Templates\\proxy\\csharp.liquid")));
+                var generatedCode = Parse(classData, File.ReadAllText("Templates\\proxy\\csharp.liquid"));
+
+                 generatedCode = CleanWhiteSpace(generatedCode);
+                
+                var filePath =
+                    $"{apiVersionDir}{controller.Name.Replace("Controller", "Client")}_v{classData.ApiVersion}.cs";
+                
+                File.WriteAllText(filePath, generatedCode);
             }
 
 
             Console.WriteLine("Done!");
+        }
+
+        private string CleanWhiteSpace(string generatedCode)
+        {
+            var result = "";
+            foreach (var s in generatedCode.Split("\n"))
+            {
+                if (!string.IsNullOrWhiteSpace(s))
+                {
+                    result += s;
+                }
+            }
+
+            return result;
         }
 
         public string Parse<T>(T model, string template)

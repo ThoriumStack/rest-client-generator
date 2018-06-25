@@ -25,8 +25,7 @@ namespace {{ NamespaceName }}.V{{ ApiVersion }}
         {% for restCall in Calls %}
           public async Task<{{ restCall.return_type }}> {{ restCall.Name }}(
             {%- for parm in restCall.function_parameters -%}
-              {{ parm.parameter_type }} {{ parm.parameter_name }} 
-              {% if forloop.last == false %}, {% endif %}
+              {{ parm.parameter_type }} {{ parm.parameter_name }}{%- if forloop.last == false -%}, {%- endif -%} 
             {%- endfor -%}) 
             {
                var result = await _client.GetRequest().AppendPathSegment("/{{ ControllerRoute }}")
@@ -37,7 +36,11 @@ namespace {{ NamespaceName }}.V{{ ApiVersion }}
                  {%- if parm.http_parameter_type == "body" -%}
                      {% if (restCall.Verb == "Post" or restCall.Verb == "Patch" or restCall.Verb == "Put")   %}
                        .{{ restCall.verb}}JsonAsync({{ parm.parameter_name }})
+                       {%- if restCall.return_type != "object" -%}
                        .ReceiveJson<{{ restCall.return_type }}>();
+                       {% else %}
+                       ;
+                       {% endif %}
                      {% endif %}
                  {%- endif -%}
                  {% if parm.http_parameter_type == "query" %}
