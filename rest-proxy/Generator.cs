@@ -44,136 +44,193 @@ namespace rest_proxy
 
             foreach (var controller in controllers)
             {
-                
-                var classData = new ClassData();
-                classData.NamespaceName = _namespaceName;
-                classData.ControllerRoute = controller.GetCustomAttribute<RouteAttribute>()?.Template;
-                var controllerType = controller;
-                var methods = controller.GetMethods().Where(c => c.DeclaringType == controllerType).ToList();
-                classData.ControllerRoute = controller.GetCustomAttribute<RouteAttribute>()?.Template;
-                var apiVersionAttrib = controller.GetCustomAttribute<ApiVersionAttribute>();
+                GenerateControllerCode(controller);
+            }
 
-                if (apiVersionAttrib != null)
+            Console.WriteLine("Done!");
+        }
+
+        private void GenerateControllerCode(Type controller)
+        {
+            var classData = new ClassData();
+            classData.NamespaceName = _namespaceName;
+            classData.ControllerRoute = GetControllerRouteTemplate(controller);
+            var methods = controller.GetMethods().Where(c => c.DeclaringType == controller).ToList();
+           // classData.ControllerRoute = controller.GetCustomAttribute<RouteAttribute>()?.Template;
+            
+            GetApiVersion(controller, classData);
+
+            classData.ClassName = controller.Name.Replace("Controller", "Client");
+
+
+            foreach (var controllerMethod in methods)
+            {
+                if (HasNoHttpMethodAttributes(controllerMethod))
                 {
-                    classData.ApiVersion = apiVersionAttrib.Versions.First().ToString();
-                    classData.ControllerRoute = classData.ControllerRoute.Replace("{version:apiVersion}", classData.ApiVersion);
-                    classData.ApiVersion = classData.ApiVersion.Replace(".", "_");
-                }
-                
-                classData.ClassName = controller.Name.Replace("Controller", "Client");
-
-
-                foreach (var controllerMethod in methods)
-                {
-                    if (controllerMethod.GetCustomAttributesData()
-                        .Any(c => c.AttributeType.BaseType == typeof(HttpMethodAttribute)))
-                    {
-                        var restCall = new RestCall();
-
-                        restCall.ReturnType = "object";
-                        restCall.ControllerRoute = "";
-                        
-                        var responseTypeAttrib = controllerMethod.GetCustomAttribute<ProducesResponseTypeAttribute>();
-                        if (responseTypeAttrib != null)
-                        {
-                            restCall.ReturnType = GetFriendlyName(responseTypeAttrib.Type);
-                        }
-
-                        restCall.Name = controllerMethod.Name;
-
-                        var parms = new List<(string type, string name)>();
-                        var parmFlurl = "";
-                        var postVar = "";
-                        var usedParms = new List<string>();
-                        foreach (var parameterInfo in controllerMethod.GetParameters())
-                        {
-                            if (parameterInfo.GetCustomAttribute<FromBodyAttribute>() != null)
-                            {
-                                postVar = parameterInfo.Name;
-                                usedParms.Add(postVar);
-                                restCall.Parameters.Add(new CallParameter
-                                {
-                                    ParameterName = postVar,
-                                    ParameterType = GetFriendlyName(parameterInfo.ParameterType),
-                                    HttpParameterType = "body"
-                                });
-                            }
-
-                            parms.Add((parameterInfo.ParameterType.Name, parameterInfo.Name));
-                        }
-
-                        var parmString = string.Join(",", parms.Select(c => $"{c.type} {c.name}"));
-
-                        var methodHttp = controllerMethod.GetCustomAttribute<HttpMethodAttribute>();
-
-                        var rawverb = methodHttp.HttpMethods.First().ToLower();
-
-                        var uriPaths = new List<string>();
-
-                        if (methodHttp.Template != null)
-                        {
-                            foreach (var uriVars in methodHttp.Template.Split("/"))
-                            {
-                                if (uriVars == "")
-                                {
-                                    continue;
-                                }
-                                var fixedRoute = !uriVars.Contains("{");
-                                var removedBrackets = uriVars.Replace("{", "").Replace("}", "");
-                                restCall.Parameters.Add(new CallParameter
-                                {
-                                    ParameterName = removedBrackets,
-                                    ParameterType = parms.FirstOrDefault(c => c.name == removedBrackets).type,
-                                    HttpParameterType = "uri",
-                                    Fixed = fixedRoute
-                                });
-                                
-                                usedParms.Add(removedBrackets);
-                            }
-                        }
-
-                        CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
-                        TextInfo textInfo = cultureInfo.TextInfo;
-
-                        restCall.Verb = textInfo.ToTitleCase(rawverb);
-
-                        foreach (var parm in parms.Where(c => !usedParms.Contains(c.name)))
-                        {
-                           
-                            restCall.Parameters.Add(new CallParameter
-                            {
-                                ParameterName = parm.name,
-                                ParameterType = parm.type,
-                                HttpParameterType = "query"
-                            });
-                        }
-
-                        restCall.Parameters.Reverse(); // reverse because body parms should show up last
-                        restCall.FunctionParameters.AddRange(restCall.Parameters.Where(c=>!c.Fixed).ToList());
-                        classData.Calls.Add(restCall);
-                    }
+                    continue;
                 }
 
-                var apiVersionDir = "output\\";
-                
-                if (!string.IsNullOrWhiteSpace(classData.ApiVersion))
-                {
-                    apiVersionDir = $"output\\v{classData.ApiVersion}\\";
-                    Directory.CreateDirectory(apiVersionDir);
-                }
+                GenerateControllerMethod(controllerMethod, classData);
+            }
 
-                var generatedCode = Parse(classData, File.ReadAllText("Templates\\proxy\\csharp.liquid"));
+            var apiVersionDir = "output\\";
 
-                 generatedCode = CleanWhiteSpace(generatedCode);
-                
-                var filePath =
-                    $"{apiVersionDir}{controller.Name.Replace("Controller", "Client")}_v{classData.ApiVersion}.cs";
-                
-                File.WriteAllText(filePath, generatedCode);
+            if (!string.IsNullOrWhiteSpace(classData.ApiVersion))
+            {
+                apiVersionDir = $"output\\v{classData.ApiVersion}\\";
+                Directory.CreateDirectory(apiVersionDir);
+            }
+
+            var generatedCode = Parse(classData, File.ReadAllText("Templates\\proxy\\csharp.liquid"));
+
+            generatedCode = CleanWhiteSpace(generatedCode);
+
+            var filePath =
+                $"{apiVersionDir}{controller.Name.Replace("Controller", "Client")}_v{classData.ApiVersion}.cs";
+
+            File.WriteAllText(filePath, generatedCode);
+        }
+
+        private static void GenerateControllerMethod(MethodInfo controllerMethod, ClassData classData)
+        {
+            var restCall = new RestCall();
+
+            restCall.ReturnType = "object";
+            restCall.ControllerRoute = "";
+
+            GetCallresponseType(controllerMethod, restCall);
+
+            restCall.Name = controllerMethod.Name;
+
+            var parms = new List<(string type, string name)>();
+            var usedParms = new List<string>();
+
+            var postParms = new List<CallParameter>();
+
+            foreach (var parameterInfo in controllerMethod.GetParameters())
+            {
+                CreateBodyParameters(parameterInfo, usedParms, postParms);
+
+                parms.Add((parameterInfo.ParameterType.Name, parameterInfo.Name));
             }
 
 
-            Console.WriteLine("Done!");
+            var methodHttp = controllerMethod.GetCustomAttribute<HttpMethodAttribute>();
+
+            var rawVerb = methodHttp.HttpMethods.First().ToLower();
+
+            if (methodHttp.Template != null)
+            {
+                CreateUriParameters(methodHttp, restCall, parms, usedParms);
+            }
+
+            VerbToTitleCase(restCall, rawVerb);
+
+            CreateQueryStringParameters(parms, usedParms, restCall);
+
+            if (postParms.Any())
+            {
+                restCall.Parameters.AddRange(postParms);
+            }
+
+            // restCall.Parameters.Reverse(); // reverse because body parms should show up last
+            restCall.FunctionParameters.AddRange(restCall.Parameters.Where(c => !c.Fixed).ToList());
+            classData.Calls.Add(restCall);
+        }
+
+        private static void CreateQueryStringParameters(List<(string type, string name)> parms, List<string> usedParms, RestCall restCall)
+        {
+            foreach (var parm in parms.Where(c => !usedParms.Contains(c.name)))
+            {
+                restCall.Parameters.Add(new CallParameter
+                {
+                    ParameterName = parm.name,
+                    ParameterType = parm.type,
+                    HttpParameterType = "query"
+                });
+            }
+        }
+
+        private static void GetCallresponseType(MethodInfo controllerMethod, RestCall restCall)
+        {
+            var responseTypeAttrib = controllerMethod.GetCustomAttribute<ProducesResponseTypeAttribute>();
+            if (responseTypeAttrib != null)
+            {
+                restCall.ReturnType = GetFriendlyName(responseTypeAttrib.Type);
+            }
+        }
+
+        private static string GetControllerRouteTemplate(Type controller)
+        {
+            return controller.GetCustomAttribute<RouteAttribute>()?.Template;
+        }
+
+        private static void GetApiVersion(Type controller, ClassData classData)
+        {
+            var apiVersionAttrib = controller.GetCustomAttribute<ApiVersionAttribute>();
+
+            if (apiVersionAttrib != null)
+            {
+                classData.ApiVersion = apiVersionAttrib.Versions.First().ToString();
+                classData.ControllerRoute =
+                    classData.ControllerRoute.Replace("{version:apiVersion}", classData.ApiVersion);
+                classData.ApiVersion = classData.ApiVersion.Replace(".", "_");
+            }
+        }
+
+        private static bool HasNoHttpMethodAttributes(MethodInfo controllerMethod)
+        {
+            return controllerMethod.GetCustomAttributesData()
+                .All(c => c.AttributeType.BaseType != typeof(HttpMethodAttribute));
+        }
+
+        private static void CreateBodyParameters(ParameterInfo parameterInfo, List<string> usedParms,
+            List<CallParameter> postParms)
+        {
+            string postVar;
+            if (parameterInfo.GetCustomAttribute<FromBodyAttribute>() != null)
+            {
+                postVar = parameterInfo.Name;
+                usedParms.Add(postVar);
+                postParms.Add(new CallParameter
+                {
+                    ParameterName = postVar,
+                    ParameterType = GetFriendlyName(parameterInfo.ParameterType),
+                    HttpParameterType = "body"
+                });
+            }
+        }
+
+        private static void CreateUriParameters(HttpMethodAttribute methodHttp, RestCall restCall,
+            List<(string type, string name)> parms, List<string> usedParms)
+        {
+            foreach (var uriVars in methodHttp.Template.Split("/"))
+            {
+                if (uriVars == "")
+                {
+                    continue;
+                }
+
+                var fixedRoute = !uriVars.Contains("{");
+                var removedBrackets = uriVars.Replace("{", "").Replace("}", "");
+                restCall.Parameters.Add(new CallParameter
+                {
+                    ParameterName = removedBrackets,
+                    ParameterType = parms.FirstOrDefault(c => c.name == removedBrackets).type,
+                    HttpParameterType = "uri",
+                    Fixed = fixedRoute
+                });
+
+                usedParms.Add(removedBrackets);
+            }
+        }
+
+        private static void VerbToTitleCase(RestCall restCall, string rawverb)
+        {
+            CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
+            TextInfo textInfo = cultureInfo.TextInfo;
+
+            restCall.Verb = textInfo.ToTitleCase(rawverb);
         }
 
         private string CleanWhiteSpace(string generatedCode)
