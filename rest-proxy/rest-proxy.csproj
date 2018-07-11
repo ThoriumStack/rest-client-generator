@@ -5,18 +5,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DotLiquid" Version="2.0.262" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.3.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.1" />
-    <PackageReference Include="MyBucks.Core.Model" Version="1.0.21" />
-    <PackageReference Include="MyBucks.Mvc.Tools" Version="1.0.24" />
+    <PackageReference Include="MyBucks.Core.MicroServices.Restful" Version="1.0.19" />
+    <PackageReference Include="MyBucks.Insurance.Enums" Version="1.0.0.2" />
+    <PackageReference Include="MyBucks.Mvc.Tools" Version="1.0.25" />
     <PackageReference Include="MyBucks.Services.ClaimsServer.ServiceContract" Version="1.0.69" />
-    <PackageReference Include="Nancy" Version="1.4.4" />
+    <PackageReference Include="MyBucks.Services.Insurance.ProductServer.ServiceContract" Version="2.0.58" />
+    <PackageReference Include="MyBucks.Services.PremiumsServer.ServiceContract" Version="1.0.9" />
   </ItemGroup>
 </Project>

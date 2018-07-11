@@ -14,7 +14,7 @@ namespace rest_proxy
     {
         static void Main(string[] args)
         {
-           var generator = new Generator("csharp", "MyBucks.Core.ApiGateway.Claims");
+           var generator = new Generator("csharp", "MyBucks.Core.ApiGateway.Insurance");
             try
             {
                 generator.Generate();

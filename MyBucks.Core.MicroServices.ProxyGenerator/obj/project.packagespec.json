@@ -1,0 +1,63 @@
+﻿{
+  "version": "1.0.0",
+  "restore": {
+    "projectUniqueName": "C:\\projects\\mybucks\\tools\\rest-proxy\\MyBucks.Core.MicroServices.ProxyGenerator\\MyBucks.Core.MicroServices.ProxyGenerator.csproj",
+    "projectName": "MyBucks.Core.MicroServices.ProxyGenerator",
+    "projectPath": "C:\\projects\\mybucks\\tools\\rest-proxy\\MyBucks.Core.MicroServices.ProxyGenerator\\MyBucks.Core.MicroServices.ProxyGenerator.csproj",
+    "outputPath": "C:\\projects\\mybucks\\tools\\rest-proxy\\MyBucks.Core.MicroServices.ProxyGenerator\\obj\\",
+    "projectStyle": "PackageReference",
+    "fallbackFolders": [
+      "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+    ],
+    "originalTargetFrameworks": [
+      "netstandard2.0"
+    ],
+    "frameworks": {
+      "netstandard2.0": {
+        "projectReferences": {}
+      }
+    },
+    "warningProperties": {
+      "warnAsError": [
+        "NU1605"
+      ]
+    }
+  },
+  "frameworks": {
+    "netstandard2.0": {
+      "dependencies": {
+        "DotLiquid": {
+          "target": "Package",
+          "version": "[2.0.266, )"
+        },
+        "McMaster.Extensions.CommandLineUtils": {
+          "target": "Package",
+          "version": "[2.2.5, )"
+        },
+        "Microsoft.AspNet.WebApi.Versioning": {
+          "target": "Package",
+          "version": "[2.3.0, )"
+        },
+        "Microsoft.Extensions.FileSystemGlobbing": {
+          "target": "Package",
+          "version": "[2.1.1, )"
+        },
+        "MyBucks.Mvc.Tools": {
+          "target": "Package",
+          "version": "[1.0.25, )"
+        },
+        "NETStandard.Library": {
+          "suppressParent": "All",
+          "target": "Package",
+          "version": "[2.0.3, )",
+          "autoReferenced": true
+        }
+      },
+      "imports": [
+        "net461"
+      ],
+      "assetTargetFallback": true,
+      "warn": true
+    }
+  }
+}

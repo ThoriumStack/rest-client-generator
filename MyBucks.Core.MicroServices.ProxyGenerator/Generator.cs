@@ -4,42 +4,41 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using DotLiquid;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.Extensions.FileSystemGlobbing;
+using Microsoft.Web.Http;
+using MyBucks.Core.MicroServices.ProxyGenerator.DotLiquid.ViewModel;
+using MyBucks.Core.MicroServices.ProxyGenerator.Model.Proxies;
 using MyBucks.Mvc.Tools;
-using rest_proxy.DotLiquid.ViewModel;
-using rest_proxy.Model.Proxies;
 
-namespace rest_proxy
+namespace MyBucks.Core.MicroServices.ProxyGenerator
 {
     public class Generator
     {
-        private string _language;
-        private string _namespaceName;
+        private readonly string _language;
+        private readonly string _namespaceName;
+        private readonly string _outputFolder;
 
-        public Generator(string language, string namespaceName)
+        public Generator(string language, string namespaceName, string outputFolder)
         {
             _language = language;
             _namespaceName = namespaceName;
+            _outputFolder = outputFolder;
         }
 
         public void Generate()
         {
-            var asmPath =
-                @"C:\projects\mybucks\getsure-api-policy\GetSure.PolicyServer\bin\Debug\netcoreapp2.1\GetSure.PolicyServer.dll";
 
-            var asm = Assembly.LoadFrom(asmPath);
+            var asm = Assembly.GetExecutingAssembly();
             var controllers = asm.GetTypes().Where(c => c.BaseType == typeof(ApiController)).ToList();
 
             //  var controllers = GetMatchingTypesInAssembly(asm, c =>  c.IsAssignableFrom(typeof(ControllerBase)));
 
-            if (!Directory.Exists("output"))
+            if (!Directory.Exists(_outputFolder))
             {
-                Directory.CreateDirectory("output");
+                Directory.CreateDirectory(_outputFolder);
             }
 
             foreach (var controller in controllers)
@@ -73,15 +72,17 @@ namespace rest_proxy
                 GenerateControllerMethod(controllerMethod, classData);
             }
 
-            var apiVersionDir = "output\\";
+            var apiVersionDir = "{_outputFolder}\\";
 
             if (!string.IsNullOrWhiteSpace(classData.ApiVersion))
             {
-                apiVersionDir = $"output\\v{classData.ApiVersion}\\";
+                apiVersionDir = $"{_outputFolder}\\v{classData.ApiVersion}\\";
                 Directory.CreateDirectory(apiVersionDir);
             }
 
-            var generatedCode = Parse(classData, File.ReadAllText("Templates\\proxy\\csharp.liquid"));
+            var template = GetTemplateText();
+
+            var generatedCode = Parse(classData, template);
 
             generatedCode = CleanWhiteSpace(generatedCode);
 
@@ -89,6 +90,21 @@ namespace rest_proxy
                 $"{apiVersionDir}{controller.Name.Replace("Controller", "Client")}_v{classData.ApiVersion}.cs";
 
             File.WriteAllText(filePath, generatedCode);
+        }
+
+        private string GetTemplateText()
+        {
+            string result;
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = $"{_language}.liquid";
+
+            using (var stream = assembly.GetManifestResourceStream(resourceName))
+            using (var reader = new StreamReader(stream))
+            {
+                result = reader.ReadToEnd();
+            }
+
+            return result;
         }
 
         private static void GenerateControllerMethod(MethodInfo controllerMethod, ClassData classData)
@@ -151,7 +167,7 @@ namespace rest_proxy
             }
         }
 
-        private static void GetCallresponseType(MethodInfo controllerMethod, RestCall restCall)
+        private static void GetCallresponseType(MemberInfo controllerMethod, RestCall restCall)
         {
             var responseTypeAttrib = controllerMethod.GetCustomAttribute<ProducesResponseTypeAttribute>();
             if (responseTypeAttrib != null)
@@ -160,12 +176,12 @@ namespace rest_proxy
             }
         }
 
-        private static string GetControllerRouteTemplate(Type controller)
+        private static string GetControllerRouteTemplate(MemberInfo controller)
         {
             return controller.GetCustomAttribute<RouteAttribute>()?.Template;
         }
 
-        private static void GetApiVersion(Type controller, ClassData classData)
+        private static void GetApiVersion(MemberInfo controller, ClassData classData)
         {
             var apiVersionAttrib = controller.GetCustomAttribute<ApiVersionAttribute>();
 
@@ -188,23 +204,21 @@ namespace rest_proxy
             List<CallParameter> postParms)
         {
             string postVar;
-            if (parameterInfo.GetCustomAttribute<FromBodyAttribute>() != null)
+            if (parameterInfo.GetCustomAttribute<FromBodyAttribute>() == null) return;
+            postVar = parameterInfo.Name;
+            usedParms.Add(postVar);
+            postParms.Add(new CallParameter
             {
-                postVar = parameterInfo.Name;
-                usedParms.Add(postVar);
-                postParms.Add(new CallParameter
-                {
-                    ParameterName = postVar,
-                    ParameterType = GetFriendlyName(parameterInfo.ParameterType),
-                    HttpParameterType = "body"
-                });
-            }
+                ParameterName = postVar,
+                ParameterType = GetFriendlyName(parameterInfo.ParameterType),
+                HttpParameterType = "body"
+            });
         }
 
         private static void CreateUriParameters(HttpMethodAttribute methodHttp, RestCall restCall,
             List<(string type, string name)> parms, List<string> usedParms)
         {
-            foreach (var uriVars in methodHttp.Template.Split("/"))
+            foreach (var uriVars in methodHttp.Template.Split('/'))
             {
                 if (uriVars == "")
                 {
@@ -227,16 +241,16 @@ namespace rest_proxy
 
         private static void VerbToTitleCase(RestCall restCall, string rawverb)
         {
-            CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
-            TextInfo textInfo = cultureInfo.TextInfo;
+            var cultureInfo = Thread.CurrentThread.CurrentCulture;
+            var textInfo = cultureInfo.TextInfo;
 
             restCall.Verb = textInfo.ToTitleCase(rawverb);
         }
 
-        private string CleanWhiteSpace(string generatedCode)
+        private static string CleanWhiteSpace(string generatedCode)
         {
             var result = "";
-            foreach (var s in generatedCode.Split("\n"))
+            foreach (var s in generatedCode.Split('\n'))
             {
                 if (!string.IsNullOrWhiteSpace(s))
                 {
@@ -247,7 +261,7 @@ namespace rest_proxy
             return result;
         }
 
-        public string Parse<T>(T model, string template)
+        private static string Parse<T>(T model, string template)
         {
             LiquidFunctions.RegisterViewModel(model.GetType());
 
@@ -258,27 +272,25 @@ namespace rest_proxy
             return result;
         }
 
-        public static string GetFriendlyName(Type type)
+        private static string GetFriendlyName(Type type)
         {
-            string friendlyName = type.Name;
-            if (type.IsGenericType)
+            var friendlyName = type.Name;
+            if (!type.IsGenericType) return friendlyName;
+            var iBacktick = friendlyName.IndexOf('`');
+            if (iBacktick > 0)
             {
-                int iBacktick = friendlyName.IndexOf('`');
-                if (iBacktick > 0)
-                {
-                    friendlyName = friendlyName.Remove(iBacktick);
-                }
-
-                friendlyName += "<";
-                Type[] typeParameters = type.GetGenericArguments();
-                for (int i = 0; i < typeParameters.Length; ++i)
-                {
-                    string typeParamName = GetFriendlyName(typeParameters[i]);
-                    friendlyName += (i == 0 ? typeParamName : "," + typeParamName);
-                }
-
-                friendlyName += ">";
+                friendlyName = friendlyName.Remove(iBacktick);
             }
+
+            friendlyName += "<";
+            var typeParameters = type.GetGenericArguments();
+            for (var i = 0; i < typeParameters.Length; ++i)
+            {
+                var typeParamName = GetFriendlyName(typeParameters[i]);
+                friendlyName += (i == 0 ? typeParamName : "," + typeParamName);
+            }
+
+            friendlyName += ">";
 
             return friendlyName;
         }
