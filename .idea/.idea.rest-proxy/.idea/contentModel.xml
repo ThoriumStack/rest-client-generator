@@ -8,6 +8,7 @@
         <e p="GeneratorCommandLineApp.cs" t="Include" />
         <e p="LquidFunctions.cs" t="Include" />
         <e p="Model" t="Include">
+          <e p="ProjectTemplateModel.cs" t="Include" />
           <e p="Proxies" t="Include">
             <e p="CallParameter.cs" t="Include" />
             <e p="ClassData.cs" t="Include" />
@@ -15,6 +16,7 @@
           </e>
         </e>
         <e p="MyBucks.Core.MicroServices.ProxyGenerator.csproj" t="IncludeRecursive" />
+        <e p="NuGet.Config" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netstandard2.0" t="Include">
@@ -22,7 +24,14 @@
             </e>
           </e>
         </e>
+        <e p="ProjectGenerator.cs" t="Include" />
         <e p="Templates" t="Include">
+          <e p="Project" t="Include">
+            <e p="csharp" t="Include">
+              <e p="Nuget.config.liquid" t="Include" />
+              <e p="ProjectName.csproj.liquid" t="Include" />
+            </e>
+          </e>
           <e p="Proxy" t="Include">
             <e p="csharp.liquid" t="Include" />
           </e>

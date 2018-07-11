@@ -28,15 +28,6 @@
           "lib/netstandard2.0/McMaster.Extensions.CommandLineUtils.dll": {}
         }
       },
-      "Microsoft.AspNet.WebApi.Versioning/2.3.0": {
-        "type": "package",
-        "compile": {
-          "lib/net45/Microsoft.AspNet.WebApi.Versioning.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.AspNet.WebApi.Versioning.dll": {}
-        }
-      },
       "Microsoft.AspNetCore.Authentication.Abstractions/2.0.2": {
         "type": "package",
         "dependencies": {
@@ -212,6 +203,18 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Mvc.Core.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.Mvc.Versioning/2.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc.Core": "2.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Mvc.Versioning.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Mvc.Versioning.dll": {}
         }
       },
       "Microsoft.AspNetCore.ResponseCaching.Abstractions/2.0.2": {
@@ -1142,17 +1145,6 @@
         "mcmaster.extensions.commandlineutils.nuspec"
       ]
     },
-    "Microsoft.AspNet.WebApi.Versioning/2.3.0": {
-      "sha512": "PZ6UQutMOe7oOzgbesg1i8Vc8UalHLQOHScdRHHMGKPFl89XMHsZ0hX94F7T0vAk867UZheWhA+5ihmce9DwBQ==",
-      "type": "package",
-      "path": "microsoft.aspnet.webapi.versioning/2.3.0",
-      "files": [
-        "lib/net45/Microsoft.AspNet.WebApi.Versioning.dll",
-        "lib/net45/Microsoft.AspNet.WebApi.Versioning.xml",
-        "microsoft.aspnet.webapi.versioning.2.3.0.nupkg.sha512",
-        "microsoft.aspnet.webapi.versioning.nuspec"
-      ]
-    },
     "Microsoft.AspNetCore.Authentication.Abstractions/2.0.2": {
       "sha512": "12+IIkf+5eM/fNch3k+nj8nzIeaQYBF87TxZZ3Uf42wPoMuGzc8nMx8fMQDyqKtzJJ+9WCnH7N9N8ekTz9F7xg==",
       "type": "package",
@@ -1283,6 +1275,18 @@
         "lib/netstandard2.0/Microsoft.AspNetCore.Mvc.Core.xml",
         "microsoft.aspnetcore.mvc.core.2.0.3.nupkg.sha512",
         "microsoft.aspnetcore.mvc.core.nuspec"
+      ]
+    },
+    "Microsoft.AspNetCore.Mvc.Versioning/2.3.0": {
+      "sha512": "fWGeQmLVLmKi4yaScHAQz/tSeLKbYifaNo9et2ljZEV535ysFzgJVw+ZGi2B/6aEDQNPn7yRLfJgXAmy7TipQA==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.mvc.versioning/2.3.0",
+      "files": [
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Mvc.Versioning.dll",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Mvc.Versioning.xml",
+        "microsoft.aspnetcore.mvc.versioning.2.3.0.nupkg.sha512",
+        "microsoft.aspnetcore.mvc.versioning.nuspec"
       ]
     },
     "Microsoft.AspNetCore.ResponseCaching.Abstractions/2.0.2": {
@@ -4027,7 +4031,7 @@
     ".NETStandard,Version=v2.0": [
       "DotLiquid >= 2.0.266",
       "McMaster.Extensions.CommandLineUtils >= 2.2.5",
-      "Microsoft.AspNet.WebApi.Versioning >= 2.3.0",
+      "Microsoft.AspNetCore.Mvc.Versioning >= 2.3.0",
       "Microsoft.Extensions.FileSystemGlobbing >= 2.1.1",
       "MyBucks.Mvc.Tools >= 1.0.25",
       "NETStandard.Library >= 2.0.3"
@@ -4083,7 +4087,7 @@
             "target": "Package",
             "version": "[2.2.5, )"
           },
-          "Microsoft.AspNet.WebApi.Versioning": {
+          "Microsoft.AspNetCore.Mvc.Versioning": {
             "target": "Package",
             "version": "[2.3.0, )"
           },
@@ -4109,17 +4113,5 @@
         "warn": true
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'Microsoft.AspNet.WebApi.Versioning 2.3.0' was restored using '.NETFramework,Version=v4.6.1' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
-      "libraryId": "Microsoft.AspNet.WebApi.Versioning",
-      "targetGraphs": [
-        ".NETStandard,Version=v2.0"
-      ]
-    }
-  ]
+  }
 }

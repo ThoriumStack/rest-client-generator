@@ -8,7 +8,6 @@ using System.Threading;
 using DotLiquid;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.Web.Http;
 using MyBucks.Core.MicroServices.ProxyGenerator.DotLiquid.ViewModel;
 using MyBucks.Core.MicroServices.ProxyGenerator.Model.Proxies;
 using MyBucks.Mvc.Tools;
@@ -31,7 +30,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
         public void Generate()
         {
 
-            var asm = Assembly.GetExecutingAssembly();
+            var asm = Assembly.GetEntryAssembly();
             var controllers = asm.GetTypes().Where(c => c.BaseType == typeof(ApiController)).ToList();
 
             //  var controllers = GetMatchingTypesInAssembly(asm, c =>  c.IsAssignableFrom(typeof(ControllerBase)));
@@ -72,7 +71,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
                 GenerateControllerMethod(controllerMethod, classData);
             }
 
-            var apiVersionDir = "{_outputFolder}\\";
+            var apiVersionDir = $"{_outputFolder}\\";
 
             if (!string.IsNullOrWhiteSpace(classData.ApiVersion))
             {
@@ -96,7 +95,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
         {
             string result;
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = $"{_language}.liquid";
+            var resourceName = $"MyBucks.Core.MicroServices.ProxyGenerator.Templates.Proxy.{_language}.liquid";
 
             using (var stream = assembly.GetManifestResourceStream(resourceName))
             using (var reader = new StreamReader(stream))

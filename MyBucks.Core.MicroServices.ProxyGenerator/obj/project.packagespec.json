@@ -34,7 +34,7 @@
           "target": "Package",
           "version": "[2.2.5, )"
         },
-        "Microsoft.AspNet.WebApi.Versioning": {
+        "Microsoft.AspNetCore.Mvc.Versioning": {
           "target": "Package",
           "version": "[2.3.0, )"
         },

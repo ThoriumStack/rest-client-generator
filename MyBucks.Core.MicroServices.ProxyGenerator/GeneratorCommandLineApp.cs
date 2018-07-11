@@ -38,6 +38,13 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
                     "Output path for generated proxies.");
                 
                 outputDirectoryArgument.Validators.Add(new DirectoryExistsValidator());
+
+                var createProjectOption = command.Option("-p|--generate-project", "Generate a project file",
+                    CommandOptionType.NoValue);
+
+
+                var additionalNugetPackagesOption = command.Option("-np", "Include additional nuget packages",
+                    CommandOptionType.MultipleValue);
                 
                 command.OnExecute(() =>
                 {
@@ -46,9 +53,21 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
                     var namespaceName = namespaceArgument.Value; 
                         
                     var generator = new Generator(language, namespaceName, outputDirectory);
-
+                    
+                    
+                    
                     try
                     {
+                        if (createProjectOption.HasValue())
+                        {
+                            var projectGenerator = new ProjectGenerator(language, namespaceName, outputDirectory);
+                            if (additionalNugetPackagesOption.HasValue())
+                            {
+                                projectGenerator.AddNugetPackages(additionalNugetPackagesOption.Values);
+                            }
+                                projectGenerator.Generate();
+                            
+                        }
                         generator.Generate();
                     }
                     catch (Exception e)

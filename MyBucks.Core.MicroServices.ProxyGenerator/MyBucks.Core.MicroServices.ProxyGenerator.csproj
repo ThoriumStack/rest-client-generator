@@ -5,11 +5,15 @@
   <ItemGroup>
     <None Remove="Templates\Proxy\csharp.liquid" />
     <EmbeddedResource Include="Templates\Proxy\csharp.liquid" />
+    <None Remove="Templates\Project\csharp\ProjectName.csproj.liquid" />
+    <EmbeddedResource Include="Templates\Project\csharp\ProjectName.csproj.liquid" />
+    <None Remove="Templates\Project\csharp\Nuget.config.liquid" />
+    <EmbeddedResource Include="Templates\Project\csharp\Nuget.config.liquid" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DotLiquid" Version="2.0.266" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.5" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Versioning" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.3.0" />
     <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="2.1.1" />
     <PackageReference Include="MyBucks.Mvc.Tools" Version="1.0.25" />
   </ItemGroup>
