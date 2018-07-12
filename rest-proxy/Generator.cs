@@ -32,7 +32,7 @@ namespace rest_proxy
             var asmPath =
                 @"C:\projects\mybucks\getsure-api-policy\GetSure.PolicyServer\bin\Debug\netcoreapp2.1\GetSure.PolicyServer.dll";
 
-            var asm = Assembly.LoadFrom(asmPath);
+            var asm = Assembly.ReflectionOnlyLoadFrom(asmPath);
             var controllers = asm.GetTypes().Where(c => c.BaseType == typeof(ApiController)).ToList();
 
             //  var controllers = GetMatchingTypesInAssembly(asm, c =>  c.IsAssignableFrom(typeof(ControllerBase)));

@@ -126,7 +126,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
             {
                 CreateBodyParameters(parameterInfo, usedParms, postParms);
 
-                parms.Add((parameterInfo.ParameterType.Name, parameterInfo.Name));
+                parms.Add((GetFriendlyName(parameterInfo.ParameterType), parameterInfo.Name));
             }
 
 
