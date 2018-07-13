@@ -45,6 +45,8 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
 
                 var additionalNugetPackagesOption = command.Option("-np", "Include additional nuget packages",
                     CommandOptionType.MultipleValue);
+
+                var specifyControllerOption = command.Option("-c|--controller", "Generate only clients for specified controllers", CommandOptionType.MultipleValue);
                 
                 command.OnExecute(() =>
                 {
@@ -68,6 +70,12 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
                                 projectGenerator.Generate();
                             
                         }
+
+                        if (specifyControllerOption.HasValue())
+                        {
+                            generator.SpecifyControllers(specifyControllerOption.Values);
+                        }
+
                         generator.Generate();
                     }
                     catch (Exception e)

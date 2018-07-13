@@ -19,6 +19,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
         private readonly string _language;
         private readonly string _namespaceName;
         private readonly string _outputFolder;
+        private List<string> _specificControllers = new List<string>();
 
         public Generator(string language, string namespaceName, string outputFolder)
         {
@@ -40,7 +41,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
                 Directory.CreateDirectory(_outputFolder);
             }
 
-            foreach (var controller in controllers)
+            foreach (var controller in controllers.Where(c=> _specificControllers.Contains(c.Name) || !_specificControllers.Any()))
             {
                 GenerateControllerCode(controller);
             }
@@ -292,6 +293,11 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
             friendlyName += ">";
 
             return friendlyName;
+        }
+
+        public void SpecifyControllers(List<string> values)
+        {
+            _specificControllers = values;
         }
     }
 }
