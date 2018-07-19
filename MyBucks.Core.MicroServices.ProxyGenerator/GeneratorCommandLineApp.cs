@@ -27,7 +27,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
                 command.HelpOption("-?|-h|--help");
 
 
-                var languageArgument = command.Argument("[language]", "Output language: values {csharp}");
+                var languageArgument = command.Argument("[language]", "Output language: values {csharp, javascript}");
                 var namespaceArgument = command.Argument("[namespace]", "The root namespace for the proxy classes.");
 
                 
@@ -115,7 +115,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
     {
         public ValidationResult GetValidationResult(CommandArgument argument, ValidationContext context)
         {
-            var supportedLanguages = new[] {"csharp"};
+            var supportedLanguages = new[] {"csharp", "javascript"};
             if (supportedLanguages.Contains(argument.Value))
             {
                 return ValidationResult.Success;

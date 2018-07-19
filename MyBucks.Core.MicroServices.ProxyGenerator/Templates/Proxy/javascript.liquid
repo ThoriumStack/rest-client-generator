@@ -1,0 +1,43 @@
+import {HttpClient} from "../../common/httpClient";
+
+export class {{ ClassName }} extends HttpClient {
+  constructor() {
+    super('http://localhost:60000/v1.0/insurance/policies');
+  }
+  
+  {% for restCall in Calls %}
+   {{ restCall.Name }}(
+    {%- for parm in restCall.function_parameters -%}
+     {{ parm.parameter_name }},  
+    {%- endfor -%} 
+     onFailed
+   )
+   {
+        let final_url = ''
+        {%- for parm in restCall.Parameters -%}
+                    {%- if parm.http_parameter_type == "uri" -%}
+                       {%- if parm.fixed -%}
+        final_url += '{{parm.parameter_name}}'
+                            {%- if forloop.last == false -%}
+        final_url += '/';
+                            {%- endif -%} 
+                       {%- else -%}
+        final_url += {{ parm.parameter_name }} 
+                         {%- if forloop.last == false -%}
+        final_url += '/';
+                         {%- endif -%} 
+                       {%- endif -%} 
+                    {%- endif -%}
+                {%- endfor -%}
+        return this.{{ restCall.Verb }}( final_url, onFailed);
+   }
+  {% endfor %}
+
+  GetPolicyMembers(policyId, onFailed) {
+    return this.Get(`${policyId}/members`, onFailed)
+  }
+
+  PolicySearch(searchParameters, onFailed) {
+    return this.Post('search', searchParameters, onFailed)
+  }
+}

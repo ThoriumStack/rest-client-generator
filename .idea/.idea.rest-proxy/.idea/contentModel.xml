@@ -34,6 +34,7 @@
           </e>
           <e p="Proxy" t="Include">
             <e p="csharp.liquid" t="Include" />
+            <e p="javascript.liquid" t="Include" />
           </e>
         </e>
       </e>
@@ -62,6 +63,7 @@
         <e p="Templates" t="Include">
           <e p="Proxy" t="Include">
             <e p="csharp.liquid" t="Include" />
+            <e p="javascript.liquid" t="Include" />
           </e>
         </e>
       </e>

@@ -9,6 +9,8 @@
     <EmbeddedResource Include="Templates\Project\csharp\ProjectName.csproj.liquid" />
     <None Remove="Templates\Project\csharp\Nuget.config.liquid" />
     <EmbeddedResource Include="Templates\Project\csharp\Nuget.config.liquid" />
+    <None Remove="Templates\Proxy\javascript.liquid" />
+    <EmbeddedResource Include="Templates\Proxy\javascript.liquid" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DotLiquid" Version="2.0.266" />

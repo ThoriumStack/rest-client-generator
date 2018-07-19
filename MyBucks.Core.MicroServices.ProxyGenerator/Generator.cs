@@ -87,9 +87,25 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
             generatedCode = CleanWhiteSpace(generatedCode);
 
             var filePath =
-                $"{apiVersionDir}{controller.Name.Replace("Controller", "Client")}_v{classData.ApiVersion}.cs";
+                $"{apiVersionDir}{controller.Name.Replace("Controller", "Client")}_v{classData.ApiVersion}.{GetExtension()}";
 
             File.WriteAllText(filePath, generatedCode);
+        }
+
+        private string GetExtension()
+        {
+            var extLookup = new Dictionary<string, string>
+            {
+                ["csharp"] = "cs",
+                ["javascript"] = "js"
+            };
+            if (extLookup.ContainsKey(_language))
+            {
+                return extLookup[_language];
+            }
+
+            return ".unknown";
+
         }
 
         private string GetTemplateText()
@@ -134,7 +150,10 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
             var methodHttp = controllerMethod.GetCustomAttribute<HttpMethodAttribute>();
 
             var rawVerb = methodHttp.HttpMethods.First().ToLower();
-
+            if (postParms.Any())
+            {
+                restCall.Parameters.AddRange(postParms);
+            }
             if (methodHttp.Template != null)
             {
                 CreateUriParameters(methodHttp, restCall, parms, usedParms);
@@ -144,10 +163,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
 
             CreateQueryStringParameters(parms, usedParms, restCall);
 
-            if (postParms.Any())
-            {
-                restCall.Parameters.AddRange(postParms);
-            }
+            
 
             // restCall.Parameters.Reverse(); // reverse because body parms should show up last
             restCall.FunctionParameters.AddRange(restCall.Parameters.Where(c => !c.Fixed).ToList());
