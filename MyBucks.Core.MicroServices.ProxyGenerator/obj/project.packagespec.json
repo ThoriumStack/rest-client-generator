@@ -44,7 +44,7 @@
         },
         "MyBucks.Mvc.Tools": {
           "target": "Package",
-          "version": "[1.0.25, )"
+          "version": "[1.0.29, )"
         },
         "NETStandard.Library": {
           "suppressParent": "All",

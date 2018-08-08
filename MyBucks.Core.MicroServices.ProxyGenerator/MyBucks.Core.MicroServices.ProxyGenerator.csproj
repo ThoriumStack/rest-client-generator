@@ -17,6 +17,6 @@
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.3.0" />
     <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="2.1.1" />
-    <PackageReference Include="MyBucks.Mvc.Tools" Version="1.0.25" />
+    <PackageReference Include="MyBucks.Mvc.Tools" Version="1.0.29" />
   </ItemGroup>
 </Project>
