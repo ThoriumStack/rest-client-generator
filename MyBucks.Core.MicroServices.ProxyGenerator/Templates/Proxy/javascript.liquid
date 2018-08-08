@@ -15,8 +15,11 @@ export class {{ ClassName }} extends HttpClient {
    {
         let final_url = ''
         {%- for parm in restCall.Parameters -%}
-                    {%- if parm.http_parameter_type == "uri" -%}
-                       {%- if parm.fixed -%}
+            {%- if parm.http_parameter_type == "body" -%}
+        let bodyParm = {{parm.parameter_name}};
+            {%- endif -%}
+            {%- if parm.http_parameter_type == "uri" -%}
+              {%- if parm.fixed -%}
         final_url += '{{parm.parameter_name}}'
                             {%- if forloop.last == false -%}
         final_url += '/';
@@ -29,15 +32,11 @@ export class {{ ClassName }} extends HttpClient {
                        {%- endif -%} 
                     {%- endif -%}
                 {%- endfor -%}
-        return this.{{ restCall.Verb }}( final_url, onFailed);
+        {% if restCall.Verb == "Post" or restCall.Verb == "Put" or restCall.Verb == "Patch" %}
+        return this.{{ restCall.Verb }}(final_url, bodyParm, onFailed);
+        {% else %}
+        return this.{{ restCall.Verb }}(final_url, onFailed);
+        {% endif %} 
    }
   {% endfor %}
-
-  GetPolicyMembers(policyId, onFailed) {
-    return this.Get(`${policyId}/members`, onFailed)
-  }
-
-  PolicySearch(searchParameters, onFailed) {
-    return this.Post('search', searchParameters, onFailed)
-  }
 }
