@@ -1,8 +1,8 @@
-import {HttpClient} from "../../common/httpClient";
+import {HttpClient} from "../../../../common/httpClient";
 
 export class {{ ClassName }} extends HttpClient {
   constructor() {
-    super('http://localhost:60000/v1.0/insurance/policies');
+    super('http://localhost:5000/v1.0/insurance/policies');
   }
   
   {% for restCall in Calls %}
