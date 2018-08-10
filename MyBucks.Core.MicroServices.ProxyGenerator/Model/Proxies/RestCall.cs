@@ -10,5 +10,10 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator.Model.Proxies
         public string Name { get; set; }
         public string ControllerRoute { get; set; }
         public List<CallParameter> FunctionParameters { get; set; } = new List<CallParameter>();
+
+        public override string ToString()
+        {
+            return $"{ControllerRoute}.{Name}";
+        }
     }
 }

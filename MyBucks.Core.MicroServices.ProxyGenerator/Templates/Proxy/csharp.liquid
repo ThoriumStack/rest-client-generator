@@ -32,19 +32,11 @@ namespace {{ NamespaceName }}.V{{ ApiVersion }}
                   .AppendPathSegment("/{{ restCall.controller_route }}")
                {%- endif -%}
                {%- for parm in restCall.Parameters -%}
-                 {%- if parm.http_parameter_type == "body" -%}
-                     {% if (restCall.Verb == "Post" or restCall.Verb == "Patch" or restCall.Verb == "Put")   %}
-                       .{{ restCall.verb}}JsonAsync({{ parm.parameter_name }})
-                       {%- if restCall.return_type != "object" -%}
-                       .ReceiveJson<{{ restCall.return_type }}>();
-                       {% else %}
-                       ;
-                       {% endif %}
-                     {% endif %}
-                 {%- endif -%}
                  {% if parm.http_parameter_type == "query" %}
-                   .SetQueryParam("{{ parm.parameter_name }}", {{ parm.parameter_name }})
+                  .SetQueryParam("{{ parm.parameter_name }}", {{ parm.parameter_name }})
                  {% endif %}
+                
+               
                  {% if parm.http_parameter_type == "uri" %}
                    {% if parm.fixed %}
                      .AppendPathSegment("{{ parm.parameter_name }}")
@@ -52,6 +44,19 @@ namespace {{ NamespaceName }}.V{{ ApiVersion }}
                      .AppendPathSegment({{ parm.parameter_name }})
                    {% endif %} 
                  {% endif %}
+               {%- endfor -%}
+               {%- for parm in restCall.Parameters -%}
+               
+               {%- if parm.http_parameter_type == "body" -%}
+                                    {% if (restCall.Verb == "Post" or restCall.Verb == "Patch" or restCall.Verb == "Put")   %}
+                                      .{{ restCall.verb}}JsonAsync({{ parm.parameter_name }})
+                                      {%- if restCall.return_type != "object" -%}
+                                      .ReceiveJson<{{ restCall.return_type }}>();
+                                      {% else %}
+                                      ;
+                                      {% endif %}
+                                    {% endif %}
+                                {%- endif -%}
                {%- endfor -%}
                {% if restCall.Verb == "Delete" %}
                    .{{ restCall.verb }}Async()

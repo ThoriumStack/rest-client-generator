@@ -138,7 +138,12 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
             var usedParms = new List<string>();
 
             var postParms = new List<CallParameter>();
-
+            var methodHttp = controllerMethod.GetCustomAttribute<HttpMethodAttribute>();
+            if (methodHttp.Template != null)
+            {
+                CreateUriParameters(methodHttp, restCall, controllerMethod.GetParameters(), usedParms);
+            }
+            
             foreach (var parameterInfo in controllerMethod.GetParameters())
             {
                 CreateBodyParameters(parameterInfo, usedParms, postParms);
@@ -147,17 +152,14 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
             }
 
 
-            var methodHttp = controllerMethod.GetCustomAttribute<HttpMethodAttribute>();
+           
 
             var rawVerb = methodHttp.HttpMethods.First().ToLower();
             if (postParms.Any())
             {
                 restCall.Parameters.AddRange(postParms);
             }
-            if (methodHttp.Template != null)
-            {
-                CreateUriParameters(methodHttp, restCall, parms, usedParms);
-            }
+            
 
             VerbToTitleCase(restCall, rawVerb);
 
@@ -166,6 +168,9 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
             
 
             // restCall.Parameters.Reverse(); // reverse because body parms should show up last
+            
+            
+            
             restCall.FunctionParameters.AddRange(restCall.Parameters.Where(c => !c.Fixed).ToList());
             classData.Calls.Add(restCall);
         }
@@ -232,7 +237,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
         }
 
         private static void CreateUriParameters(HttpMethodAttribute methodHttp, RestCall restCall,
-            List<(string type, string name)> parms, List<string> usedParms)
+            ParameterInfo[] parms, List<string> usedParms)
         {
             foreach (var uriVars in methodHttp.Template.Split('/'))
             {
@@ -246,7 +251,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
                 restCall.Parameters.Add(new CallParameter
                 {
                     ParameterName = removedBrackets,
-                    ParameterType = parms.FirstOrDefault(c => c.name == removedBrackets).type,
+                    ParameterType = parms.FirstOrDefault(c => c.Name == removedBrackets)?.ParameterType.Name ?? "",
                     HttpParameterType = "uri",
                     Fixed = fixedRoute
                 });
