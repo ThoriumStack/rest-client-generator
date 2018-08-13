@@ -1,8 +1,9 @@
 import {HttpClient} from "../../../../common/httpClient";
+import settings from "../../restServiceSettings";
 
 export class {{ ClassName }} extends HttpClient {
   constructor() {
-    super('http://localhost:5000/v1.0/insurance/policies');
+    super(settings('{{ ClassName }}'));
   }
   
   {% for restCall in Calls %}
