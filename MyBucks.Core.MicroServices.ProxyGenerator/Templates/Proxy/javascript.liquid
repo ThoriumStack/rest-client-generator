@@ -30,9 +30,21 @@ export class {{ ClassName }} extends HttpClient {
                          {%- if forloop.last == false -%}
         final_url += '/';
                          {%- endif -%} 
-                       {%- endif -%} 
-                    {%- endif -%}
-                {%- endfor -%}
+              {%- endif -%} 
+            {%- endif -%}  
+        {%- endfor -%}
+        
+        {%- for parm in restCall.Parameters -%}        
+         {%- if  parm.http_parameter_type == "query" -%}
+         {%- if forloop.first == true -%}
+        final_url += '?';
+         {%- endif -%}
+        final_url += '{{ parm.parameter_name }}=' + {{ parm.parameter_name }}
+         {%- if forloop.last == false -%}
+        final_url += '&';
+         {%- endif -%}    
+         {%- endif -%} 
+        {%- endfor -%}
         {% if restCall.Verb == "Post" or restCall.Verb == "Put" or restCall.Verb == "Patch" %}
         return this.{{ restCall.Verb }}(final_url, bodyParm, onFailed);
         {% else %}
