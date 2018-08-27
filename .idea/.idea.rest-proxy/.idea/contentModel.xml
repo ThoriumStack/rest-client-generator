@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\projects\mybucks\tools\rest-proxy" t="IncludeFlat">
+    <e p="C:\projects\mybucks\lib\rest-client-generator" t="IncludeFlat">
       <e p="MyBucks.Core.MicroServices.ProxyGenerator" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
         <e p="Generator.cs" t="Include" />
@@ -69,6 +69,6 @@
       </e>
       <e p="rest-proxy.sln" t="IncludeFlat" />
     </e>
-    <e p="C:\Users\tjaartb\.Rider2018.1\system\resharper-host\local\Transient\ReSharperHost\v12\SolutionCaches\_rest-proxy.1536698946.00" t="ExcludeRecursive" />
+    <e p="C:\Users\tjaartb\.Rider2018.1\system\resharper-host\local\Transient\ReSharperHost\v12\SolutionCaches\_rest-proxy.-1463644827.00" t="ExcludeRecursive" />
   </component>
 </project>

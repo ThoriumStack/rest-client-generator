@@ -22,22 +22,25 @@ export class {{ ClassName }} extends HttpClient {
             {%- if parm.http_parameter_type == "uri" -%}
               {%- if parm.fixed -%}
         final_url += '{{parm.parameter_name}}'
-                            {%- if forloop.last == false -%}
+                            {%- if forloop.last == false and restCall.Parameters[forloop.index].http_parameter_type != "query" -%}
         final_url += '/';
                             {%- endif -%} 
                        {%- else -%}
         final_url += {{ parm.parameter_name }} 
-                         {%- if forloop.last == false -%}
+                         {%- if forloop.last == false and restCall.Parameters[forloop.index].http_parameter_type != "query" -%}
         final_url += '/';
                          {%- endif -%} 
               {%- endif -%} 
             {%- endif -%}  
         {%- endfor -%}
         
+        {% assign add_question_mark = true %}
+        
         {%- for parm in restCall.Parameters -%}        
          {%- if  parm.http_parameter_type == "query" -%}
-         {%- if forloop.first == true -%}
+         {%- if add_question_mark == true -%}
         final_url += '?';
+        {% assign add_question_mark = false %}
          {%- endif -%}
         final_url += '{{ parm.parameter_name }}=' + {{ parm.parameter_name }}
          {%- if forloop.last == false -%}
