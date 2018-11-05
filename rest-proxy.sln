@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rest-proxy", "rest-proxy\rest-proxy.csproj", "{292F4DF1-3DB2-45E5-8D72-9FEB6C54A270}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBucks.Core.MicroServices.ProxyGenerator", "MyBucks.Core.MicroServices.ProxyGenerator\MyBucks.Core.MicroServices.ProxyGenerator.csproj", "{77EA6626-E238-4F9C-848B-891169E99632}"
 EndProject
 Global
@@ -10,10 +8,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{292F4DF1-3DB2-45E5-8D72-9FEB6C54A270}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{292F4DF1-3DB2-45E5-8D72-9FEB6C54A270}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{292F4DF1-3DB2-45E5-8D72-9FEB6C54A270}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{292F4DF1-3DB2-45E5-8D72-9FEB6C54A270}.Release|Any CPU.Build.0 = Release|Any CPU
 		{77EA6626-E238-4F9C-848B-891169E99632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{77EA6626-E238-4F9C-848B-891169E99632}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77EA6626-E238-4F9C-848B-891169E99632}.Release|Any CPU.ActiveCfg = Release|Any CPU

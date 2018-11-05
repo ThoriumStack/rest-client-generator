@@ -469,7 +469,7 @@
           "lib/netstandard2.0/MyBucks.Core.Model.dll": {}
         }
       },
-      "MyBucks.Mvc.Tools/1.0.29": {
+      "MyBucks.Mvc.Tools/1.0.33": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.0.3",
@@ -1564,13 +1564,13 @@
         "mybucks.core.model.nuspec"
       ]
     },
-    "MyBucks.Mvc.Tools/1.0.29": {
-      "sha512": "Y3q4HEtXsLP5FPUYWHVL9o2BLDNnyDKlARdMReBxP7yBjjxnHuqggzLSlFaoq3+N/APwfv0cABe2y0Dl/vBDeg==",
+    "MyBucks.Mvc.Tools/1.0.33": {
+      "sha512": "tyPIeceKKiUOiJTYzdDqI4Zai4eKaCDeoWyETdCAkkgoe5ciLsUrIh7eKc3li0Cuk9cESEX371HFigBOEF1tqA==",
       "type": "package",
-      "path": "mybucks.mvc.tools/1.0.29",
+      "path": "mybucks.mvc.tools/1.0.33",
       "files": [
         "lib/netstandard2.0/MyBucks.Mvc.Tools.dll",
-        "mybucks.mvc.tools.1.0.29.nupkg.sha512",
+        "mybucks.mvc.tools.1.0.33.nupkg.sha512",
         "mybucks.mvc.tools.nuspec"
       ]
     },
@@ -4033,36 +4033,33 @@
       "McMaster.Extensions.CommandLineUtils >= 2.2.5",
       "Microsoft.AspNetCore.Mvc.Versioning >= 2.3.0",
       "Microsoft.Extensions.FileSystemGlobbing >= 2.1.1",
-      "MyBucks.Mvc.Tools >= 1.0.29",
+      "MyBucks.Mvc.Tools >= 1.0.33",
       "NETStandard.Library >= 2.0.3"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tjaartb\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/home/tjaart/.nuget/packages/": {},
+    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\projects\\mybucks\\tools\\rest-proxy\\MyBucks.Core.MicroServices.ProxyGenerator\\MyBucks.Core.MicroServices.ProxyGenerator.csproj",
+      "projectUniqueName": "/home/tjaart/projects/lib/rest-client-generator/MyBucks.Core.MicroServices.ProxyGenerator/MyBucks.Core.MicroServices.ProxyGenerator.csproj",
       "projectName": "MyBucks.Core.MicroServices.ProxyGenerator",
-      "projectPath": "C:\\projects\\mybucks\\tools\\rest-proxy\\MyBucks.Core.MicroServices.ProxyGenerator\\MyBucks.Core.MicroServices.ProxyGenerator.csproj",
-      "packagesPath": "C:\\Users\\tjaartb\\.nuget\\packages\\",
-      "outputPath": "C:\\projects\\mybucks\\tools\\rest-proxy\\MyBucks.Core.MicroServices.ProxyGenerator\\obj\\",
+      "projectPath": "/home/tjaart/projects/lib/rest-client-generator/MyBucks.Core.MicroServices.ProxyGenerator/MyBucks.Core.MicroServices.ProxyGenerator.csproj",
+      "packagesPath": "/home/tjaart/.nuget/packages/",
+      "outputPath": "/home/tjaart/projects/lib/rest-client-generator/MyBucks.Core.MicroServices.ProxyGenerator/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\tjaartb\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/home/tjaart/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "http://172.21.0.65/guestAuth/app/nuget/v1/FeedService.svc/": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4097,7 +4094,7 @@
           },
           "MyBucks.Mvc.Tools": {
             "target": "Package",
-            "version": "[1.0.29, )"
+            "version": "[1.0.33, )"
           },
           "NETStandard.Library": {
             "suppressParent": "All",

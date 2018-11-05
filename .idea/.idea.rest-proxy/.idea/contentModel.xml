@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\projects\mybucks\lib\rest-client-generator" t="IncludeFlat">
+    <e p="$USER_HOME$/.Rider2018.2/system/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/.Rider2018.2/system/resharper-host/local/Transient/ReSharperHost/v182/SolutionCaches/_rest-proxy.793518205.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeFlat">
       <e p="MyBucks.Core.MicroServices.ProxyGenerator" t="IncludeRecursive">
-        <e p="bin" t="ExcludeRecursive" />
         <e p="Generator.cs" t="Include" />
         <e p="GeneratorCommandLineApp.cs" t="Include" />
         <e p="LquidFunctions.cs" t="Include" />
@@ -16,14 +17,7 @@
           </e>
         </e>
         <e p="MyBucks.Core.MicroServices.ProxyGenerator.csproj" t="IncludeRecursive" />
-        <e p="NuGet.Config" t="Include" />
-        <e p="obj" t="ExcludeRecursive">
-          <e p="Debug" t="Include">
-            <e p="netstandard2.0" t="Include">
-              <e p="MyBucks.Core.MicroServices.ProxyGenerator.AssemblyInfo.cs" t="Include" />
-            </e>
-          </e>
-        </e>
+        <e p="Nuget.config" t="Include" />
         <e p="ProjectGenerator.cs" t="Include" />
         <e p="Templates" t="Include">
           <e p="Project" t="Include">
@@ -37,38 +31,17 @@
             <e p="javascript.liquid" t="Include" />
           </e>
         </e>
-      </e>
-      <e p="packages" t="ExcludeRecursive" />
-      <e p="rest-proxy" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
-        <e p="Generator.cs" t="Include" />
-        <e p="GeneratorOld.cs" t="Include" />
-        <e p="LquidFunctions.cs" t="Include" />
-        <e p="Model" t="Include">
-          <e p="Proxies" t="Include">
-            <e p="CallParameter.cs" t="Include" />
-            <e p="ClassData.cs" t="Include" />
-            <e p="RestCall.cs" t="Include" />
-          </e>
-        </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.1" t="Include">
-              <e p="rest-proxy.AssemblyInfo.cs" t="Include" />
+            <e p="netstandard2.0" t="Include">
+              <e p="MyBucks.Core.MicroServices.ProxyGenerator.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
         </e>
-        <e p="Program.cs" t="Include" />
-        <e p="rest-proxy.csproj" t="IncludeRecursive" />
-        <e p="Templates" t="Include">
-          <e p="Proxy" t="Include">
-            <e p="csharp.liquid" t="Include" />
-            <e p="javascript.liquid" t="Include" />
-          </e>
-        </e>
       </e>
+      <e p="packages" t="ExcludeRecursive" />
       <e p="rest-proxy.sln" t="IncludeFlat" />
     </e>
-    <e p="C:\Users\tjaartb\.Rider2018.1\system\resharper-host\local\Transient\ReSharperHost\v12\SolutionCaches\_rest-proxy.-1463644827.00" t="ExcludeRecursive" />
   </component>
 </project>

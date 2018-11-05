@@ -1,13 +1,13 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "C:\\projects\\mybucks\\tools\\rest-proxy\\MyBucks.Core.MicroServices.ProxyGenerator\\MyBucks.Core.MicroServices.ProxyGenerator.csproj",
+    "projectUniqueName": "/home/tjaart/projects/lib/rest-client-generator/MyBucks.Core.MicroServices.ProxyGenerator/MyBucks.Core.MicroServices.ProxyGenerator.csproj",
     "projectName": "MyBucks.Core.MicroServices.ProxyGenerator",
-    "projectPath": "C:\\projects\\mybucks\\tools\\rest-proxy\\MyBucks.Core.MicroServices.ProxyGenerator\\MyBucks.Core.MicroServices.ProxyGenerator.csproj",
-    "outputPath": "C:\\projects\\mybucks\\tools\\rest-proxy\\MyBucks.Core.MicroServices.ProxyGenerator\\obj\\",
+    "projectPath": "/home/tjaart/projects/lib/rest-client-generator/MyBucks.Core.MicroServices.ProxyGenerator/MyBucks.Core.MicroServices.ProxyGenerator.csproj",
+    "outputPath": "/home/tjaart/projects/lib/rest-client-generator/MyBucks.Core.MicroServices.ProxyGenerator/obj/",
     "projectStyle": "PackageReference",
     "fallbackFolders": [
-      "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      "/usr/share/dotnet/sdk/NuGetFallbackFolder"
     ],
     "originalTargetFrameworks": [
       "netstandard2.0"
@@ -44,7 +44,7 @@
         },
         "MyBucks.Mvc.Tools": {
           "target": "Package",
-          "version": "[1.0.29, )"
+          "version": "[1.0.33, )"
         },
         "NETStandard.Library": {
           "suppressParent": "All",

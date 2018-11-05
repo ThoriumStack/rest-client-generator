@@ -72,13 +72,14 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
                 GenerateControllerMethod(controllerMethod, classData);
             }
 
-            var apiVersionDir = $"{_outputFolder}\\";
+            var apiVersionDir = $"{_outputFolder}";
 
             if (!string.IsNullOrWhiteSpace(classData.ApiVersion))
             {
-                apiVersionDir = $"{_outputFolder}\\v{classData.ApiVersion}\\";
+                apiVersionDir = Path.Combine(_outputFolder,$"v{classData.ApiVersion}") ;
                 Directory.CreateDirectory(apiVersionDir);
             }
+            
 
             var template = GetTemplateText();
 
@@ -86,8 +87,10 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
 
             generatedCode = CleanWhiteSpace(generatedCode);
 
-            var filePath =
-                $"{apiVersionDir}{controller.Name.Replace("Controller", "Client")}_v{classData.ApiVersion}.{GetExtension()}";
+            var controllerFileName = $"{controller.Name.Replace("Controller", "Client")}_v{classData.ApiVersion}.{GetExtension()}";
+
+            var filePath = Path.Combine(apiVersionDir, controllerFileName);
+                
 
             File.WriteAllText(filePath, generatedCode);
         }
@@ -165,11 +168,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
 
             CreateQueryStringParameters(parms, usedParms, restCall);
 
-            
-
             // restCall.Parameters.Reverse(); // reverse because body parms should show up last
-            
-            
             
             restCall.FunctionParameters.AddRange(restCall.Parameters.Where(c => !c.Fixed).ToList());
             classData.Calls.Add(restCall);
