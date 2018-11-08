@@ -9,7 +9,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
 {
     public class GeneratorCommandLineApp
     {
-        public bool AddCommandToApplication(CommandLineApplication app)
+        public void AddCommandToApplication(CommandLineApplication app)
         {
               app.Command("generate", (command) =>
             {
