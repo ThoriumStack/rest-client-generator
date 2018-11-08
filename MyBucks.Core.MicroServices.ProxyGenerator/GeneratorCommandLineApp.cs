@@ -9,19 +9,9 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
 {
     public class GeneratorCommandLineApp
     {
-        public bool RunGenerator(string[] args)
+        public bool AddCommandToApplication(CommandLineApplication app)
         {
-            if (args.Length == 0)
-            {
-                return false;
-            }
-            
-            var app = new CommandLineApplication();
-            app.Name = "test-tool";
-            app.HelpOption("-?|-h|--help");
-            
-            
-            app.Command("generate", (command) =>
+              app.Command("generate", (command) =>
             {
                 command.Description = "Generate a microservice proxy";
                 command.HelpOption("-?|-h|--help");
@@ -87,6 +77,21 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
                     return 0;
                 });
             });
+        }
+        
+        public bool RunGenerator(string[] args)
+        {
+            if (args.Length == 0)
+            {
+                return false;
+            }
+            
+            var app = new CommandLineApplication();
+            app.Name = "test-tool";
+            app.HelpOption("-?|-h|--help");
+
+
+            AddCommandToApplication(app);
             
             
             app.OnExecute(() => {
