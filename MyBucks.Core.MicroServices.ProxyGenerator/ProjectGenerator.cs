@@ -42,7 +42,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
                 
                 fileName = fileName.Replace($"MyBucks.Core.MicroServices.ProxyGenerator.Templates.Project.{_language}.", "");
                 fileName = fileName.Replace("ProjectName", _namespaceName);
-                fileName = $"{_outputDirectory}{(!_outputDirectory.EndsWith("\\") ? "\\" : "")}{fileName}";
+                fileName = Path.Combine(_outputDirectory, fileName);
                 var parsedTemplate = Parse(_projectModel, template);
                 File.WriteAllText(fileName, parsedTemplate);
             }
