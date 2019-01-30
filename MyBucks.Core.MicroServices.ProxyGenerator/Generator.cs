@@ -30,10 +30,10 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
 
         public void Generate()
         {
-
             var asm = Assembly.GetEntryAssembly();
-            var controllers = asm.GetTypes().Where(c => c.BaseType == typeof(ApiController)).ToList();
-
+            //  var controllers = asm.GetTypes().Where(c => c.BaseType == typeof(ApiController)).ToList();
+            // var controllers = asm.GetTypes().Where(c => c.IsAssignableFrom(typeof(ApiController))).ToList();
+            var controllers = asm.GetTypes().Where(c => c.IsSubclassOf(typeof(ApiController))).ToList();
             //  var controllers = GetMatchingTypesInAssembly(asm, c =>  c.IsAssignableFrom(typeof(ControllerBase)));
 
             if (!Directory.Exists(_outputFolder))
@@ -41,7 +41,8 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
                 Directory.CreateDirectory(_outputFolder);
             }
 
-            foreach (var controller in controllers.Where(c=> _specificControllers.Contains(c.Name) || !_specificControllers.Any()))
+            foreach (var controller in controllers.Where(c =>
+                _specificControllers.Contains(c.Name) || !_specificControllers.Any()))
             {
                 GenerateControllerCode(controller);
             }
@@ -55,8 +56,8 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
             classData.NamespaceName = _namespaceName;
             classData.ControllerRoute = GetControllerRouteTemplate(controller);
             var methods = controller.GetMethods().Where(c => c.DeclaringType == controller).ToList();
-           // classData.ControllerRoute = controller.GetCustomAttribute<RouteAttribute>()?.Template;
-            
+            // classData.ControllerRoute = controller.GetCustomAttribute<RouteAttribute>()?.Template;
+
             GetApiVersion(controller, classData);
 
             classData.ClassName = controller.Name.Replace("Controller", "Client");
@@ -76,10 +77,10 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
 
             if (!string.IsNullOrWhiteSpace(classData.ApiVersion))
             {
-                apiVersionDir = Path.Combine(_outputFolder,$"v{classData.ApiVersion}") ;
+                apiVersionDir = Path.Combine(_outputFolder, $"v{classData.ApiVersion}");
                 Directory.CreateDirectory(apiVersionDir);
             }
-            
+
 
             var template = GetTemplateText();
 
@@ -87,10 +88,11 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
 
             generatedCode = CleanWhiteSpace(generatedCode);
 
-            var controllerFileName = $"{controller.Name.Replace("Controller", "Client")}_v{classData.ApiVersion}.{GetExtension()}";
+            var controllerFileName =
+                $"{controller.Name.Replace("Controller", "Client")}_v{classData.ApiVersion}.{GetExtension()}";
 
             var filePath = Path.Combine(apiVersionDir, controllerFileName);
-                
+
 
             File.WriteAllText(filePath, generatedCode);
         }
@@ -108,7 +110,6 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
             }
 
             return ".unknown";
-
         }
 
         private string GetTemplateText()
@@ -128,53 +129,60 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
 
         private static void GenerateControllerMethod(MethodInfo controllerMethod, ClassData classData)
         {
-            var restCall = new RestCall();
-
-            restCall.ReturnType = "object";
-            restCall.ControllerRoute = "";
-
-            GetCallresponseType(controllerMethod, restCall);
-
-            restCall.Name = controllerMethod.Name;
-
-            var parms = new List<(string type, string name)>();
-            var usedParms = new List<string>();
-
-            var postParms = new List<CallParameter>();
-            var methodHttp = controllerMethod.GetCustomAttribute<HttpMethodAttribute>();
-            if (methodHttp.Template != null)
+            try
             {
-                CreateUriParameters(methodHttp, restCall, controllerMethod.GetParameters(), usedParms);
+                var restCall = new RestCall();
+
+                restCall.ReturnType = "object";
+                restCall.ControllerRoute = "";
+
+                GetCallresponseType(controllerMethod, restCall);
+
+                restCall.Name = controllerMethod.Name;
+
+                var parms = new List<(string type, string name)>();
+                var usedParms = new List<string>();
+
+                var postParms = new List<CallParameter>();
+                var methodHttp = controllerMethod.GetCustomAttribute<HttpMethodAttribute>();
+                if (methodHttp.Template != null)
+                {
+                    CreateUriParameters(methodHttp, restCall, controllerMethod.GetParameters(), usedParms);
+                }
+
+                foreach (var parameterInfo in controllerMethod.GetParameters())
+                {
+                    CreateBodyParameters(parameterInfo, usedParms, postParms);
+
+                    parms.Add((GetFriendlyName(parameterInfo.ParameterType), parameterInfo.Name));
+                }
+
+
+                var rawVerb = methodHttp.HttpMethods.First().ToLower();
+                if (postParms.Any())
+                {
+                    restCall.Parameters.AddRange(postParms);
+                }
+
+
+                VerbToTitleCase(restCall, rawVerb);
+
+                CreateQueryStringParameters(parms, usedParms, restCall);
+
+                // restCall.Parameters.Reverse(); // reverse because body parms should show up last
+
+                restCall.FunctionParameters.AddRange(restCall.Parameters.Where(c => !c.Fixed).ToList());
+                classData.Calls.Add(restCall);
             }
-            
-            foreach (var parameterInfo in controllerMethod.GetParameters())
+            catch (Exception e)
             {
-                CreateBodyParameters(parameterInfo, usedParms, postParms);
-
-                parms.Add((GetFriendlyName(parameterInfo.ParameterType), parameterInfo.Name));
+                Console.WriteLine($"Unable to generate {controllerMethod.Name}");
+                throw;
             }
-
-
-           
-
-            var rawVerb = methodHttp.HttpMethods.First().ToLower();
-            if (postParms.Any())
-            {
-                restCall.Parameters.AddRange(postParms);
-            }
-            
-
-            VerbToTitleCase(restCall, rawVerb);
-
-            CreateQueryStringParameters(parms, usedParms, restCall);
-
-            // restCall.Parameters.Reverse(); // reverse because body parms should show up last
-            
-            restCall.FunctionParameters.AddRange(restCall.Parameters.Where(c => !c.Fixed).ToList());
-            classData.Calls.Add(restCall);
         }
 
-        private static void CreateQueryStringParameters(List<(string type, string name)> parms, List<string> usedParms, RestCall restCall)
+        private static void CreateQueryStringParameters(List<(string type, string name)> parms, List<string> usedParms,
+            RestCall restCall)
         {
             foreach (var parm in parms.Where(c => !usedParms.Contains(c.name)))
             {
