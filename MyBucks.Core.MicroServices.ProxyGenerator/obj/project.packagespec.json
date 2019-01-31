@@ -28,23 +28,23 @@
       "dependencies": {
         "DotLiquid": {
           "target": "Package",
-          "version": "[2.0.266, )"
+          "version": "[2.0.298, )"
         },
         "McMaster.Extensions.CommandLineUtils": {
           "target": "Package",
-          "version": "[2.2.5, )"
+          "version": "[2.3.1, )"
         },
         "Microsoft.AspNetCore.Mvc.Versioning": {
           "target": "Package",
-          "version": "[2.3.0, )"
+          "version": "[3.1.2, )"
         },
         "Microsoft.Extensions.FileSystemGlobbing": {
           "target": "Package",
-          "version": "[2.1.1, )"
+          "version": "[2.2.0, )"
         },
         "MyBucks.Mvc.Tools": {
           "target": "Package",
-          "version": "[1.0.33, )"
+          "version": "[1.2.1, )"
         },
         "NETStandard.Library": {
           "suppressParent": "All",
