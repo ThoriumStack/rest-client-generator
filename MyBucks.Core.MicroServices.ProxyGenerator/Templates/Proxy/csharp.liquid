@@ -12,14 +12,9 @@ using MyBucks.Core.Model;
 
 namespace {{ NamespaceName }}.V{{ ApiVersion }}
 {
-    public class {{ ClassName }}
+    public class {{ ClassName }} : BaseApiClient
     {
-        private MyBucksApiClient _client;
-
-        public {{ ClassName }}(MyBucksApiClient client) 
-        {
-            _client = client;
-        }
+         public override string EndpointKey => "{{ EndpointKey }}";
         
         {% for restCall in Calls %}
           public async Task<{{ restCall.return_type }}> {{ restCall.Name }}(
@@ -27,7 +22,7 @@ namespace {{ NamespaceName }}.V{{ ApiVersion }}
               {{ parm.parameter_type }} {{ parm.parameter_name }}{%- if forloop.last == false -%}, {%- endif -%} 
             {%- endfor -%}) 
             {
-               var result = await _client.GetRequest().AppendPathSegment("/{{ ControllerRoute }}")
+               var result = await Client.GetRequest().AppendPathSegment("/{{ ControllerRoute }}")
                {%- if restCall.controller_route != "" -%}
                   .AppendPathSegment("/{{ restCall.controller_route }}")
                {%- endif -%}

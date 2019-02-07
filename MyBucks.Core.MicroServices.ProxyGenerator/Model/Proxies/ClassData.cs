@@ -11,5 +11,6 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator.Model.Proxies
         public string ControllerRoute { get; set; }
         public string NamespaceName { get; set; }
         public string ApiVersion { get; set; }
+        public string EndpointKey { get; set; }
     }
 }

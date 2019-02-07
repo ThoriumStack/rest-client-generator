@@ -19,13 +19,15 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
         private readonly string _language;
         private readonly string _namespaceName;
         private readonly string _outputFolder;
+        private readonly string _endpointKey;
         private List<string> _specificControllers = new List<string>();
 
-        public Generator(string language, string namespaceName, string outputFolder)
+        public Generator(string language, string namespaceName, string outputFolder, string endpointKey)
         {
             _language = language;
             _namespaceName = namespaceName;
             _outputFolder = outputFolder;
+            _endpointKey = endpointKey;
         }
 
         public void Generate()
@@ -87,7 +89,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
             var generatedCode = Parse(classData, template);
 
             generatedCode = CleanWhiteSpace(generatedCode);
-
+            classData.EndpointKey = _endpointKey;
             var controllerFileName =
                 $"{controller.Name.Replace("Controller", "Client")}_v{classData.ApiVersion}.{GetExtension()}";
 

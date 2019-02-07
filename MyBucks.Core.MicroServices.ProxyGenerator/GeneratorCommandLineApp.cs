@@ -19,7 +19,8 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
 
                 var languageArgument = command.Argument("[language]", "Output language: values {csharp, javascript}");
                 var namespaceArgument = command.Argument("[namespace]", "The root namespace for the proxy classes.");
-
+                var endPointKeyArgument =
+                    command.Argument("[endpointkey]", "The key used to retrieve url from service settings");
                 
                 
                 languageArgument.Validators.Add(new LanguageSupportedValidator());
@@ -42,9 +43,9 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
                 {
                     var outputDirectory = outputDirectoryArgument.Value;
                     var language = languageArgument.Value;
-                    var namespaceName = namespaceArgument.Value; 
-                        
-                    var generator = new Generator(language, namespaceName, outputDirectory);
+                    var namespaceName = namespaceArgument.Value;
+                    var endpointKey = endPointKeyArgument.Value;
+                    var generator = new Generator(language, namespaceName, outputDirectory, endpointKey);
                     
                     
                     
