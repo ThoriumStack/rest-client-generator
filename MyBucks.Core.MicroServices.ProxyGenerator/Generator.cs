@@ -57,6 +57,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
             var classData = new ClassData();
             classData.NamespaceName = _namespaceName;
             classData.ControllerRoute = GetControllerRouteTemplate(controller);
+            classData.EndpointKey = _endpointKey;
             var methods = controller.GetMethods().Where(c => c.DeclaringType == controller).ToList();
             // classData.ControllerRoute = controller.GetCustomAttribute<RouteAttribute>()?.Template;
 
@@ -89,7 +90,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
             var generatedCode = Parse(classData, template);
 
             generatedCode = CleanWhiteSpace(generatedCode);
-            classData.EndpointKey = _endpointKey;
+          
             var controllerFileName =
                 $"{controller.Name.Replace("Controller", "Client")}_v{classData.ApiVersion}.{GetExtension()}";
 
