@@ -32,7 +32,7 @@
         },
         "McMaster.Extensions.CommandLineUtils": {
           "target": "Package",
-          "version": "[2.3.1, )"
+          "version": "[2.3.2, )"
         },
         "Microsoft.AspNetCore.Mvc.Versioning": {
           "target": "Package",
@@ -44,7 +44,7 @@
         },
         "MyBucks.Mvc.Tools": {
           "target": "Package",
-          "version": "[1.2.1, )"
+          "version": "[1.2.2, )"
         },
         "NETStandard.Library": {
           "suppressParent": "All",

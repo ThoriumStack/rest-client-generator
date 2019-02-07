@@ -16,7 +16,7 @@
           }
         }
       },
-      "McMaster.Extensions.CommandLineUtils/2.3.1": {
+      "McMaster.Extensions.CommandLineUtils/2.3.2": {
         "type": "package",
         "dependencies": {
           "System.ComponentModel.Annotations": "4.4.1"
@@ -476,7 +476,7 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "MyBucks.Core.Model/1.0.28": {
+      "MyBucks.Core.Model/1.0.29": {
         "type": "package",
         "dependencies": {
           "System.ComponentModel.Annotations": "4.4.0"
@@ -488,11 +488,21 @@
           "lib/netstandard2.0/MyBucks.Core.Model.dll": {}
         }
       },
-      "MyBucks.Mvc.Tools/1.2.1": {
+      "MyBucks.Mvc.Models/1.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/MyBucks.Mvc.Models.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/MyBucks.Mvc.Models.dll": {}
+        }
+      },
+      "MyBucks.Mvc.Tools/1.2.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.0",
-          "MyBucks.Core.Model": "1.0.28"
+          "MyBucks.Core.Model": "1.0.29",
+          "MyBucks.Mvc.Models": "1.0.2"
         },
         "compile": {
           "lib/netstandard2.0/MyBucks.Mvc.Tools.dll": {}
@@ -1151,10 +1161,10 @@
         "readme.txt"
       ]
     },
-    "McMaster.Extensions.CommandLineUtils/2.3.1": {
-      "sha512": "XOkveS9OOoOTqq+am1CRFa7A7sEGtH1RC/Bhf3TFKvxORFHzbTfIuqgdIX0kcUkrSuPpiS4EPi758TU+0OxyDg==",
+    "McMaster.Extensions.CommandLineUtils/2.3.2": {
+      "sha512": "7joqAxuzwL/MHjaeJagNdViu08r/EWogqy7Q44x+hAP+x+lpeSH1eDdmEPq4coD6n2ssRGxtUMk8EONCchR6Gg==",
       "type": "package",
-      "path": "mcmaster.extensions.commandlineutils/2.3.1",
+      "path": "mcmaster.extensions.commandlineutils/2.3.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1164,7 +1174,7 @@
         "lib/netstandard1.6/McMaster.Extensions.CommandLineUtils.xml",
         "lib/netstandard2.0/McMaster.Extensions.CommandLineUtils.dll",
         "lib/netstandard2.0/McMaster.Extensions.CommandLineUtils.xml",
-        "mcmaster.extensions.commandlineutils.2.3.1.nupkg.sha512",
+        "mcmaster.extensions.commandlineutils.2.3.2.nupkg.sha512",
         "mcmaster.extensions.commandlineutils.nuspec"
       ]
     },
@@ -1660,24 +1670,36 @@
         "runtime.json"
       ]
     },
-    "MyBucks.Core.Model/1.0.28": {
-      "sha512": "9gj6KUSuBxaU4V9me29cU1BCckKExXK62+NqNAvo5FEhYGNKXSKJoXZDOnLgvNXw1l5yqGQU5w6C4Iayx8yPjw==",
+    "MyBucks.Core.Model/1.0.29": {
+      "sha512": "7PqfTlxMzpqDpXfOfI8eF3TAHuyL0QnOYrMMRaSEsnTm7eajhkbD4vl5Glzbm03J4BfUsOPKikTu+5C4JDXUhg==",
       "type": "package",
-      "path": "mybucks.core.model/1.0.28",
+      "path": "mybucks.core.model/1.0.29",
       "files": [
+        ".nupkg.metadata",
         "lib/netstandard2.0/MyBucks.Core.Model.dll",
-        "mybucks.core.model.1.0.28.nupkg.sha512",
+        "mybucks.core.model.1.0.29.nupkg.sha512",
         "mybucks.core.model.nuspec"
       ]
     },
-    "MyBucks.Mvc.Tools/1.2.1": {
-      "sha512": "jMr17MJCB9OlZedLzqqwEjJoLpmkJNT0OjFRklxgG2M/5zLiqRqDdfmDtWVae7qQ4XsvgbRdX66q+RipX+aU0g==",
+    "MyBucks.Mvc.Models/1.0.2": {
+      "sha512": "KPjOILzvErgPoL6JtFxZXp4YgxNlzRrjb+ahomV/GhQqtNdkC1BQN5JuLluqNsveM7VR52R8XSsvjv+dH4S2PA==",
       "type": "package",
-      "path": "mybucks.mvc.tools/1.2.1",
+      "path": "mybucks.mvc.models/1.0.2",
+      "files": [
+        ".nupkg.metadata",
+        "lib/netstandard2.0/MyBucks.Mvc.Models.dll",
+        "mybucks.mvc.models.1.0.2.nupkg.sha512",
+        "mybucks.mvc.models.nuspec"
+      ]
+    },
+    "MyBucks.Mvc.Tools/1.2.2": {
+      "sha512": "kqcJw8FQU3ZESIiqJT0tKNkAWLmkM9nFEDMSndITYG4O1H0ygPW6e5T7FTZTGsgYhABeVMgY6oeA6SdSxVPwXQ==",
+      "type": "package",
+      "path": "mybucks.mvc.tools/1.2.2",
       "files": [
         ".nupkg.metadata",
         "lib/netstandard2.0/MyBucks.Mvc.Tools.dll",
-        "mybucks.mvc.tools.1.2.1.nupkg.sha512",
+        "mybucks.mvc.tools.1.2.2.nupkg.sha512",
         "mybucks.mvc.tools.nuspec"
       ]
     },
@@ -4229,10 +4251,10 @@
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
       "DotLiquid >= 2.0.298",
-      "McMaster.Extensions.CommandLineUtils >= 2.3.1",
+      "McMaster.Extensions.CommandLineUtils >= 2.3.2",
       "Microsoft.AspNetCore.Mvc.Versioning >= 3.1.2",
       "Microsoft.Extensions.FileSystemGlobbing >= 2.2.0",
-      "MyBucks.Mvc.Tools >= 1.2.1",
+      "MyBucks.Mvc.Tools >= 1.2.2",
       "NETStandard.Library >= 2.0.3"
     ]
   },
@@ -4282,7 +4304,7 @@
           },
           "McMaster.Extensions.CommandLineUtils": {
             "target": "Package",
-            "version": "[2.3.1, )"
+            "version": "[2.3.2, )"
           },
           "Microsoft.AspNetCore.Mvc.Versioning": {
             "target": "Package",
@@ -4294,7 +4316,7 @@
           },
           "MyBucks.Mvc.Tools": {
             "target": "Package",
-            "version": "[1.2.1, )"
+            "version": "[1.2.2, )"
           },
           "NETStandard.Library": {
             "suppressParent": "All",
