@@ -3,9 +3,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MyBucks.Core.ApiGateway.ApiClient" Version="2.0.0" />
-    <PackageReference Include="MyBucks.Core.Model" Version="1.0.23" />
-    <PackageReference Include="MyBucks.Mvc.Tools" Version="1.0.25" />
+    <PackageReference Include="MyBucks.Core.ApiGateway.ApiClient" Version="*" />
+    <PackageReference Include="MyBucks.Core.Model" Version="*" />
+    <PackageReference Include="MyBucks.Mvc.Tools" Version="*" />
      {%- for nugetPackage in NugetPackages -%}
      <PackageReference Include="{{ nugetPackage.full_name }}" Version="{{ nugetPackage.version }}" />   
      {%- endfor -%}
