@@ -497,7 +497,7 @@
           "lib/netstandard2.0/MyBucks.Mvc.Models.dll": {}
         }
       },
-      "MyBucks.Mvc.Tools/1.2.2": {
+      "MyBucks.Mvc.Tools/1.2.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.0",
@@ -1692,14 +1692,14 @@
         "mybucks.mvc.models.nuspec"
       ]
     },
-    "MyBucks.Mvc.Tools/1.2.2": {
-      "sha512": "kqcJw8FQU3ZESIiqJT0tKNkAWLmkM9nFEDMSndITYG4O1H0ygPW6e5T7FTZTGsgYhABeVMgY6oeA6SdSxVPwXQ==",
+    "MyBucks.Mvc.Tools/1.2.3": {
+      "sha512": "02SGUE03K1/QjnZWiB+7/b7mFHJXxKY4DBy4nM942NQ5TxnHCV6KEbWkqpcU1eaxO3P99nKkefNfJHKakypUeg==",
       "type": "package",
-      "path": "mybucks.mvc.tools/1.2.2",
+      "path": "mybucks.mvc.tools/1.2.3",
       "files": [
         ".nupkg.metadata",
         "lib/netstandard2.0/MyBucks.Mvc.Tools.dll",
-        "mybucks.mvc.tools.1.2.2.nupkg.sha512",
+        "mybucks.mvc.tools.1.2.3.nupkg.sha512",
         "mybucks.mvc.tools.nuspec"
       ]
     },
@@ -4254,7 +4254,7 @@
       "McMaster.Extensions.CommandLineUtils >= 2.3.2",
       "Microsoft.AspNetCore.Mvc.Versioning >= 3.1.2",
       "Microsoft.Extensions.FileSystemGlobbing >= 2.2.0",
-      "MyBucks.Mvc.Tools >= 1.2.2",
+      "MyBucks.Mvc.Tools >= 1.2.3",
       "NETStandard.Library >= 2.0.3"
     ]
   },
@@ -4316,7 +4316,7 @@
           },
           "MyBucks.Mvc.Tools": {
             "target": "Package",
-            "version": "[1.2.2, )"
+            "version": "[1.2.3, )"
           },
           "NETStandard.Library": {
             "suppressParent": "All",
