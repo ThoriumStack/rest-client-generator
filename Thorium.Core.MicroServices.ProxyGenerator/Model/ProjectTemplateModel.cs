@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MyBucks.Core.MicroServices.ProxyGenerator
+namespace Thorium.Core.MicroServices.ProxyGenerator.Model
 {
     public class ProjectTemplateModel
     {

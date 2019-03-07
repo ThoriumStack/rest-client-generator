@@ -1,4 +1,4 @@
-﻿namespace MyBucks.Core.MicroServices.ProxyGenerator.Model.Proxies
+﻿namespace Thorium.Core.MicroServices.ProxyGenerator.Model.Proxies
 {
     public class CallParameter
     {

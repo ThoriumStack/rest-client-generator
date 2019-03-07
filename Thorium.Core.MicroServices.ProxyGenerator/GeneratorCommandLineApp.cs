@@ -5,7 +5,7 @@ using System.Linq;
 using McMaster.Extensions.CommandLineUtils;
 using McMaster.Extensions.CommandLineUtils.Validation;
 
-namespace MyBucks.Core.MicroServices.ProxyGenerator
+namespace Thorium.Core.MicroServices.ProxyGenerator
 {
     public class GeneratorCommandLineApp
     {

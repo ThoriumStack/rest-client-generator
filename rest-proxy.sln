@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBucks.Core.MicroServices.ProxyGenerator", "MyBucks.Core.MicroServices.ProxyGenerator\MyBucks.Core.MicroServices.ProxyGenerator.csproj", "{77EA6626-E238-4F9C-848B-891169E99632}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thorium.Core.MicroServices.ProxyGenerator", "Thorium.Core.MicroServices.ProxyGenerator\Thorium.Core.MicroServices.ProxyGenerator.csproj", "{77EA6626-E238-4F9C-848B-891169E99632}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -8,11 +7,11 @@ using System.Threading;
 using DotLiquid;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
-using MyBucks.Core.MicroServices.ProxyGenerator.DotLiquid.ViewModel;
-using MyBucks.Core.MicroServices.ProxyGenerator.Model.Proxies;
 using MyBucks.Mvc.Tools;
+using Thorium.Core.MicroServices.ProxyGenerator.DotLiquid.ViewModel;
+using Thorium.Core.MicroServices.ProxyGenerator.Model.Proxies;
 
-namespace MyBucks.Core.MicroServices.ProxyGenerator
+namespace Thorium.Core.MicroServices.ProxyGenerator
 {
     public class Generator
     {
@@ -119,7 +118,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
         {
             string result;
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = $"MyBucks.Core.MicroServices.ProxyGenerator.Templates.Proxy.{_language}.liquid";
+            var resourceName = $"Thorium.Core.MicroServices.ProxyGenerator.Templates.Proxy.{_language}.liquid";
 
             using (var stream = assembly.GetManifestResourceStream(resourceName))
             using (var reader = new StreamReader(stream))

@@ -2,7 +2,7 @@
 using System.Linq;
 using DotLiquid;
 
-namespace MyBucks.Core.MicroServices.ProxyGenerator
+namespace Thorium.Core.MicroServices.ProxyGenerator
 {
     namespace DotLiquid.ViewModel
     {

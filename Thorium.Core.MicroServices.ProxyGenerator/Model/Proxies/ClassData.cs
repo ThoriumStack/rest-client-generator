@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MyBucks.Core.MicroServices.ProxyGenerator.Model.Proxies
+namespace Thorium.Core.MicroServices.ProxyGenerator.Model.Proxies
 {
     public class ClassData
     {

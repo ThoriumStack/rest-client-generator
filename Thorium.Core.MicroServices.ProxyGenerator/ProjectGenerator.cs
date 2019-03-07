@@ -4,9 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using DotLiquid;
-using MyBucks.Core.MicroServices.ProxyGenerator.DotLiquid.ViewModel;
+using Thorium.Core.MicroServices.ProxyGenerator.DotLiquid.ViewModel;
+using Thorium.Core.MicroServices.ProxyGenerator.Model;
 
-namespace MyBucks.Core.MicroServices.ProxyGenerator
+namespace Thorium.Core.MicroServices.ProxyGenerator
 {
     public class ProjectGenerator
     {
@@ -30,7 +31,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
             var assembly = Assembly.GetExecutingAssembly();
             var resourceNames = assembly.GetManifestResourceNames()
                     .Where(
-                        c => c.StartsWith($"MyBucks.Core.MicroServices.ProxyGenerator.Templates.Project.{_language}"))
+                        c => c.StartsWith($"Thorium.Core.MicroServices.ProxyGenerator.Templates.Project.{_language}"))
                 ;
 
             foreach (var resourceName in resourceNames)
@@ -40,7 +41,7 @@ namespace MyBucks.Core.MicroServices.ProxyGenerator
 
                 var fileName = resourceName.Replace(".liquid", "");
                 
-                fileName = fileName.Replace($"MyBucks.Core.MicroServices.ProxyGenerator.Templates.Project.{_language}.", "");
+                fileName = fileName.Replace($"Thorium.Core.MicroServices.ProxyGenerator.Templates.Project.{_language}.", "");
                 fileName = fileName.Replace("ProjectName", _namespaceName);
                 fileName = Path.Combine(_outputDirectory, fileName);
                 var parsedTemplate = Parse(_projectModel, template);
