@@ -1,4 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Version>$(appveyor_build_version)</Version>
+    <Authors>Thorium Dev Team</Authors>
+    <Company>Thorium Dev Team</Company>
+    <Product>Fluent Defense</Product>
+    <PackageId>Thorium.Core.MicroServices.ProxyGenerator</PackageId>
+    <AssemblyVersion>$(appveyor_build_version)</AssemblyVersion>
+    <FileVersion>$(appveyor_build_version)</FileVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Description>Generate Flurl Clients For your Micro Services</Description>
+    <Copyright>Copyright</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/ThoriumStack/rest-client-generator/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/ThoriumStack/rest-client-generator</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ThoriumStack/rest-client-generator</RepositoryUrl>
+    <PackageReleaseNotes>Release</PackageReleaseNotes>
+  </PropertyGroup>
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>

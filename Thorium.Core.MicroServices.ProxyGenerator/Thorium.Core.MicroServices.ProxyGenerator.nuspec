@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+    <metadata>
+        <version>$(appveyor_build_version)</version>
+        <id>Thorium.Core.MicroServices.ProxyGenerator</id>
+        <authors>Thorium Dev Team</authors>
+        <owners>Thorium Dev Team</owners>
+        <licenseUrl>https://raw.githubusercontent.com/ThoriumStack/rest-client-generator/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/ThoriumStack/rest-client-generator</projectUrl>
+        <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Flurl Client Generator</description>
+        <releaseNotes>Initial release.</releaseNotes>
+        <copyright>Copyright 2019</copyright>
+    </metadata>
+</package>
