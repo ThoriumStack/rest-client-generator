@@ -7,9 +7,9 @@ using System.Threading;
 using DotLiquid;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
-using MyBucks.Mvc.Tools;
 using Thorium.Core.MicroServices.ProxyGenerator.DotLiquid.ViewModel;
 using Thorium.Core.MicroServices.ProxyGenerator.Model.Proxies;
+using Thorium.Mvc.Tools;
 
 namespace Thorium.Core.MicroServices.ProxyGenerator
 {
